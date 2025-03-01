@@ -1,0 +1,314 @@
+/* Fuente de letra: Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* Seteos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  color: inherit;
+  scroll-behavior: smooth;
+  /* border: solid 1px red; */
+}
+
+body {
+  background: #eaf2f6;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.navbar {
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  color: #dde7ee;
+  background-color: #256993;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-bottom: solid 1px black;
+  z-index: 3;
+}
+
+.logo {
+  height: 50px;
+  width: 70px;
+  position: absolute;
+  left: -10px;
+  z-index: 0;
+}
+
+.logoAndTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.title {
+  font-weight: 400;
+  font-size: 30px;
+  z-index: 1;
+  margin-left: 42px;
+}
+
+.blueSpan {
+  font-weight: 600;
+  color: rgb(0, 0, 0);
+}
+
+.iconsAndList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 70px;
+}
+.navbarList {
+  display: flex;
+  gap: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  user-select: none;
+  cursor: pointer;
+}
+
+.menuAndCartIcons {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+#menuIcon {
+  display: none;
+  cursor: pointer;
+}
+
+.blur {
+  backdrop-filter: blur(4px) saturate(180%);
+  -webkit-backdrop-filter: blur(4px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  position: absolute;
+  top: 60px;
+  width: 100vw;
+  height: calc(100vh - 60px);
+  z-index: 1;
+  left: 0px;
+}
+
+/* Carrito */
+#cartIcon {
+  cursor: pointer;
+}
+.cart {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: calc(100vh - 60px);
+  position: absolute;
+  top: 60px;
+  right: 0px;
+  width: 350px;
+  background: #256993;
+  transform: translateX(110%);
+  visibility: hidden;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -webkit-transform: translateX(110%);
+  -moz-transform: translateX(110%);
+  -ms-transform: translateX(110%);
+  -o-transform: translateX(110%);
+  z-index: 2;
+}
+
+.showCart {
+  transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  -moz-transform: translateX(0%);
+  -ms-transform: translateX(0%);
+  -o-transform: translateX(0%);
+  visibility: visible;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+}
+
+.cartTitle {
+  font-size: 32px;
+  font-weight: 400;
+  text-align: center;
+  border-bottom: solid 1px white;
+  user-select: none;
+}
+/* Slider - Hero */
+#hero {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleAndDesc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 0px 10px;
+  flex-wrap: wrap;
+}
+
+.heroTitle {
+  font-size: 60px;
+  color: #256993;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.heroDesc {
+  font-size: 28px;
+}
+.slider {
+  height: 450px;
+  width: 95%;
+  max-width: 1500px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  background-color: #dbeef3;
+  align-items: center;
+  box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.44);
+  -webkit-box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.44);
+  position: relative;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  overflow-x: hidden;
+  z-index: 1;
+}
+
+.sliderImgMoveRight {
+  transform: translateX(1000%);
+  -webkit-transform: translateX(1000%);
+  -moz-transform: translateX(1000%);
+  -ms-transform: translateX(1000%);
+  -o-transform: translateX(1000%);
+}
+.sliderImgMoveLeft {
+  transform: translateX(-1000%);
+  -webkit-transform: translateX(-1000%);
+  -moz-transform: translateX(-1000%);
+  -ms-transform: translateX(-1000%);
+  -o-transform: translateX(-1000%);
+}
+.sliderImg {
+  height: 100%;
+  width: 100%;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  transition: all 3s ease;
+  -webkit-transition: all 3s ease;
+  -moz-transition: all 3s ease;
+  -ms-transition: all 3s ease;
+  -o-transition: all 3s ease;
+}
+
+.sliderBtn {
+  all: unset;
+  font-size: 60px;
+  background: none;
+  color: black;
+  user-select: none;
+  cursor: pointer;
+}
+.prevHero {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
+
+.nextHero {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
+
+.dotsDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  gap: 15px;
+}
+
+.dot {
+  background: black;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  cursor: pointer;
+}
+
+.unselectedDot {
+  opacity: 40%;
+}
+
+/* Clases de multiple uso */
+.hide {
+  display: none;
+}
+
+.hideVisOp {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.showVisOp {
+  visibility: visible;
+  opacity: 1;
+}
+
+.show {
+  display: flex;
+}

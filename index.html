@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notebook Heaven</title>
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="./assets/style.css" />
+    <!-- Link CSS Responsive -->
+    <link rel="stylesheet" href="./assets/responsive.css" />
+    <!-- Link Fontawesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body id="body">
+    <main id="main">
+      <header class="header">
+        <nav class="navbar">
+          <div class="logoAndTitle">
+            <img
+              src="./assets/img/logo/notebookHeavenLogo.png"
+              alt="Notebook Heaven Logo"
+              class="logo"
+            />
+            <h1 class="title">
+              <span class="blueSpan">N</span>otebook
+              <span class="blueSpan">H</span>eaven
+            </h1>
+          </div>
+          <div class="iconsAndList">
+            <ul class="navbarList">
+              <li class="navbarListItem">
+                <a href="#" class="navbarListLink">Inicio</a>
+              </li>
+              <li class="navbarListItem">
+                <a href="#" class="navbarListLink">Sobre Nosotros</a>
+              </li>
+              <li class="navbarListItem">
+                <a href="#" class="navbarListLink">Productos</a>
+              </li>
+              <li class="navbarListItem">
+                <a href="#" class="navbarListLink">Contáctanos</a>
+              </li>
+            </ul>
+            <div class="menuAndCartIcons">
+              <i class="fa-solid fa-cart-shopping" id="cartIcon"></i>
+              <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </div>
+          </div>
+          <div class="cart">
+            <h2 class="cartTitle">Carrito</h2>
+          </div>
+          <div class="blur hide"></div>
+        </nav>
+      </header>
+      <section id="hero">
+        <div class="titleAndDesc">
+          <h1 class="heroTitle">Notebook Heaven</h1>
+          <p class="heroDesc">
+            Potencia tu creatividad y productividad con nuestras notebooks al
+            mejor precio del mercado.
+          </p>
+        </div>
+        <div class="slider">
+          <img
+            src="./assets/img/slider/desktop/first.webp"
+            alt="firstImage"
+            class="sliderImg"
+          />
+          <button class="sliderBtn prevHero">&lt</button>
+          <button class="sliderBtn nextHero">&gt</button>
+          <div class="dotsDisplay"></div>
+        </div>
+      </section>
+    </main>
+    <footer id="footer"></footer>
+    <script src="./assets/main.js"></script>
+  </body>
+</html>
