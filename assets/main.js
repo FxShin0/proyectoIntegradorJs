@@ -26,10 +26,7 @@ let appState = {
       currentTimer: null,
     },
     mobile: {
-      imgs: [
-        "./assets/img/slider/mobile/first.webp",
-        "./assets/img/slider/mobile/second.jpeg",
-      ],
+      imgs: ["./assets/img/slider/mobile/first.webp"],
       currentImgIndex: 0,
       currentTimer: null,
     },
@@ -208,6 +205,12 @@ const handleCartClick = () => {
   cart.classList.toggle("showCart");
 };
 
+const closeMenus = () => {
+  navList.classList.remove("showMenu");
+  cart.classList.remove("showCart");
+  blurDiv.classList.remove("show");
+};
+
 //CAMBIO DE MODO A MOBILE RESPECTO AL SLIDER DEL HERO
 const indicateMobile = (event) => {
   if (event.matches) {
@@ -233,6 +236,7 @@ const indicateMobile = (event) => {
       ];
   }
 };
+
 //iniciaciones generales de la pagina
 const init = () => {
   document.addEventListener("DOMContentLoaded", initialSliderCall);
@@ -240,6 +244,7 @@ const init = () => {
   menuIcon.addEventListener("click", handleMenuClick);
   cartIcon.addEventListener("click", handleCartClick);
   mediaQuerySlider.addEventListener("change", indicateMobile);
+  blurDiv.addEventListener("click", closeMenus);
   indicateMobile(mediaQuerySlider);
 };
 

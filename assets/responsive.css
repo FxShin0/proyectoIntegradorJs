@@ -33,6 +33,7 @@
     visibility: hidden;
     z-index: 2;
   }
+
   .showMenu {
     transform: translateX(0%);
     -webkit-transform: translateX(0%);
@@ -57,16 +58,19 @@
   }
 }
 
-/* Modificacion del slider denuevo y al titulo y desc del hero*/
+/* Modificacion del slider denuevo y al titulo y desc y subtitulo de sections*/
 @media (max-width: 700px) {
   .slider {
     height: 275px;
   }
-  .heroDesc {
+  .sectionDesc {
     font-size: 22px;
   }
-  .heroTitle {
+  .sectionTitle {
     font-size: 50px;
+  }
+  .sectionSubtitle {
+    font-size: 28px;
   }
 }
 
@@ -74,11 +78,7 @@
 @media (max-width: 550px) {
   .slider {
     height: 450px;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+    margin-bottom: 0px;
   }
   .sliderImg {
     border-radius: 5px;
@@ -87,12 +87,16 @@
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
   }
+  .titleAndDesc {
+    display: flex;
+  }
 
-  .heroTitle {
+  .sectionTitle {
     font-size: 42px;
     line-height: 1;
+    padding-top: 20px;
   }
-  .heroDesc {
+  .sectionDesc {
     font-size: 18px;
   }
 }
@@ -114,5 +118,14 @@
 @media (max-width: 390px) {
   .slider {
     height: 325px;
+  }
+  .sectionSubtitle {
+    font-size: 30px;
+  }
+}
+
+@media (max-height: 630px) {
+  .slider {
+    height: 400px;
   }
 }
