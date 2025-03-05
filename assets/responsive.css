@@ -1,9 +1,80 @@
 /* Configuraciones responsive */
 
 /* Cambio para separar menos el carrito del navList */
-@media (max-width: 990px) {
+@media (max-width: 1001px) {
   .iconsAndList {
     gap: 25px;
+  }
+  .filtersAndProductsContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .filtersContainer {
+    margin-top: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .filter {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.44);
+    -webkit-box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.44);
+    -moz-box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.44);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 7px 5px;
+    padding-top: 0px;
+  }
+  .filterName {
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+  .filterOptions {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+  .prices {
+    padding: 10px 15px;
+  }
+  .priceRangeInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+
+  #min,
+  #max {
+    width: 150px;
+  }
+  .showOption {
+    display: flex;
+  }
+  .downIndicator,
+  .upIndicator {
+    color: black;
+    font-weight: 300;
+    position: absolute;
+    top: 1px;
+    font-size: 24px;
+    right: 7px;
+    display: flex;
+  }
+  .hideInd {
+    display: none;
   }
 }
 
@@ -104,7 +175,7 @@
 /* Modificacion del titulo del navbar y al slider */
 @media (max-width: 450px) {
   .title {
-    font-size: 20px;
+    font-size: 24px;
   }
   .menuAndCartIcons {
     font-size: 20px;
@@ -122,6 +193,12 @@
   .sectionSubtitle {
     font-size: 30px;
   }
+  .title {
+    font-size: 20px;
+  }
+  .productCard {
+    width: 250px;
+  }
 }
 
 @media (max-height: 630px) {
@@ -133,5 +210,29 @@
 @media (max-height: 500px) {
   .slider {
     height: 275px;
+  }
+}
+
+/* Monitores 4K */
+@media (min-width: 2560px) {
+  html {
+    font-size: 23px;
+  }
+  .maxWidth,
+  .slider {
+    max-width: 2200px;
+  }
+  .slider {
+    height: 700px;
+  }
+  .card {
+    height: 450px;
+    width: 375px;
+  }
+  .cardsContainer {
+    gap: 100px;
+  }
+  .filterOptions {
+    max-width: 500px;
   }
 }

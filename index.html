@@ -21,67 +21,58 @@
       rel="preload"
       as="image"
       href="./assets/img/slider/desktop/first.webp"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="./assets/img/slider/desktop/second.webp"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="./assets/img/slider/desktop/third.webp"
+      media="(min-width:551px)"
     />
     <link
       rel="preload"
       as="image"
       href="./assets/img/slider/mobile/first.webp"
+      media="(max-width:550px)"
     />
   </head>
   <body id="body">
+    <header class="header">
+      <nav class="navbar">
+        <div class="logoAndTitle">
+          <img
+            src="./assets/img/logo/notebookHeavenLogo.png"
+            alt="Notebook Heaven Logo"
+            class="logo"
+          />
+          <h1 class="title">
+            <span class="blueSpan">N</span>otebook
+            <span class="blueSpan">H</span>eaven
+          </h1>
+        </div>
+        <div class="iconsAndList">
+          <ul class="navbarList">
+            <li class="navbarListItem">
+              <a href="#hero" class="navbarListLink">Inicio</a>
+            </li>
+            <li class="navbarListItem">
+              <a href="#sobreNosotros" class="navbarListLink">Sobre Nosotros</a>
+            </li>
+            <li class="navbarListItem">
+              <a href="#" class="navbarListLink">Productos</a>
+            </li>
+            <li class="navbarListItem">
+              <a href="#" class="navbarListLink">Contáctanos</a>
+            </li>
+          </ul>
+          <div class="menuAndCartIcons">
+            <i class="fa-solid fa-cart-shopping" id="cartIcon"></i>
+            <i class="fa-solid fa-bars" id="menuIcon"></i>
+          </div>
+        </div>
+        <div class="cart">
+          <h2 class="cartTitle">Carrito</h2>
+        </div>
+        <div class="blur hide"></div>
+      </nav>
+    </header>
     <main id="main">
-      <header class="header">
-        <nav class="navbar">
-          <div class="logoAndTitle">
-            <img
-              src="./assets/img/logo/notebookHeavenLogo.png"
-              alt="Notebook Heaven Logo"
-              class="logo"
-            />
-            <h1 class="title">
-              <span class="blueSpan">N</span>otebook
-              <span class="blueSpan">H</span>eaven
-            </h1>
-          </div>
-          <div class="iconsAndList">
-            <ul class="navbarList">
-              <li class="navbarListItem">
-                <a href="#hero" class="navbarListLink">Inicio</a>
-              </li>
-              <li class="navbarListItem">
-                <a href="#sobreNosotros" class="navbarListLink"
-                  >Sobre Nosotros</a
-                >
-              </li>
-              <li class="navbarListItem">
-                <a href="#" class="navbarListLink">Productos</a>
-              </li>
-              <li class="navbarListItem">
-                <a href="#" class="navbarListLink">Contáctanos</a>
-              </li>
-            </ul>
-            <div class="menuAndCartIcons">
-              <i class="fa-solid fa-cart-shopping" id="cartIcon"></i>
-              <i class="fa-solid fa-bars" id="menuIcon"></i>
-            </div>
-          </div>
-          <div class="cart">
-            <h2 class="cartTitle">Carrito</h2>
-          </div>
-          <div class="blur hide"></div>
-        </nav>
-      </header>
-      <section id="hero">
+      <!-- HERO -->
+      <section id="hero" class="maxWidth">
         <div class="titleAndDesc">
           <h1 class="sectionTitle">Notebook Heaven</h1>
           <p class="sectionDesc">
@@ -100,7 +91,8 @@
           <div class="dotsDisplay"></div>
         </div>
       </section>
-      <section id="sobreNosotros">
+      <!-- SOBRE NOSOTROS -->
+      <section id="sobreNosotros" class="maxWidth">
         <div class="sobreNosotrosText">
           <h2 class="sectionTitle">Sobre Nosotros</h2>
           <p class="sectionDesc">
@@ -134,8 +126,167 @@
           </div>
         </div>
       </section>
+      <!-- PRODUCTOS -->
+      <section id="productos" class="maxWidth">
+        <div class="sectionTitle">Busca tu Notebook!</div>
+        <div class="filtersAndProductsContainer">
+          <div class="filtersContainer boxShadow">
+            <div class="filter">
+              <p class="downIndicator">+</p>
+              <p class="upIndicator hideInd">-</p>
+              <p class="filterName">Estado</p>
+              <div class="filterOptions">
+                <button class="filterBtn">Nuevo</button>
+                <button class="filterBtn">Reacondicionado</button>
+              </div>
+            </div>
+            <div class="filter">
+              <p class="downIndicator">+</p>
+              <p class="upIndicator hideInd">-</p>
+              <p class="filterName">Marca</p>
+              <div class="filterOptions">
+                <button class="filterBtn filterBtnSelected">Acer</button>
+                <button class="filterBtn">Dell</button>
+                <!-- Aca irian todos -->
+              </div>
+            </div>
+            <div class="filter">
+              <p class="downIndicator">+</p>
+              <p class="upIndicator hideInd">-</p>
+              <p class="filterName">Almacenamiento</p>
+              <div class="filterOptions">
+                <button class="filterBtn">128gb SSD</button>
+                <button class="filterBtn">256gb SSD</button>
+                <!-- Aca irian todos -->
+              </div>
+            </div>
+            <div class="filter">
+              <p class="downIndicator">+</p>
+              <p class="upIndicator hideInd">-</p>
+              <p class="filterName">Ram</p>
+              <div class="filterOptions">
+                <button class="filterBtn">8gb</button>
+                <button class="filterBtn">4gb</button>
+                <!-- Aca irian todos -->
+              </div>
+            </div>
+            <div class="filter">
+              <p class="downIndicator">+</p>
+              <p class="upIndicator hideInd">-</p>
+              <p class="filterName">Precio</p>
+              <div class="filterOptions prices">
+                <div class="priceRangeInput">
+                  <label for="min">Minimo: </label>
+                  <input type="number" id="min" class="priceInput boxShadow" />
+                </div>
+                <div class="priceRangeInput">
+                  <label for="max">Maximo: </label>
+                  <input type="number" id="max" class="priceInput boxShadow" />
+                </div>
+              </div>
+            </div>
+            <div class="filterSRBtnsContainer">
+              <button class="sendBtn">Buscar</button>
+              <button class="resetFiltersBtn">Quitar Filtros</button>
+            </div>
+          </div>
+          <div class="productsAndPagesContainer boxShadow">
+            <div class="productsContainer">
+              <div class="productCard boxShadow">
+                <img
+                  src="./assets/img/acer/netbook1/acer1.webp"
+                  alt="notebook Acer"
+                  class="productImg"
+                />
+                <div class="cardText">
+                  <p class="brand">Acer</p>
+                  <p class="model">Aspire 3515 Family</p>
+                  <p class="cpu">Intel Celeron N4500 ababababbabaaaaa</p>
+                  <p class="ramAndStorage">
+                    8gb <span class="divider">|</span> 128gb SSD
+                  </p>
+                  <p class="precio">$450.000</p>
+                  <button class="addToCardBtn">Agregar al Carrito</button>
+                </div>
+              </div>
+              <div class="productCard boxShadow">
+                <img
+                  src="./assets/img/acer/netbook1/acer1.webp"
+                  alt="notebook Acer"
+                  class="productImg"
+                />
+                <div class="cardText">
+                  <p class="brand">Acer</p>
+                  <p class="model">Aspire 3515 Family</p>
+                  <p class="cpu">Intel Celeron N4500</p>
+                  <p class="ramAndStorage">
+                    8gb <span class="divider">|</span> 128gb SSD
+                  </p>
+                  <p class="precio">$450.000</p>
+                  <button class="addToCardBtn">Agregar al Carrito</button>
+                </div>
+              </div>
+              <div class="productCard boxShadow">
+                <img
+                  src="./assets/img/acer/netbook1/acer1.webp"
+                  alt="notebook Acer"
+                  class="productImg"
+                />
+                <div class="cardText">
+                  <p class="brand">Acer</p>
+                  <p class="model">Aspire 3515 Family</p>
+                  <p class="cpu">Intel Celeron N4500</p>
+                  <p class="ramAndStorage">
+                    8gb <span class="divider">|</span> 128gb SSD
+                  </p>
+                  <p class="precio">$450.000</p>
+                  <button class="addToCardBtn">Agregar al Carrito</button>
+                </div>
+              </div>
+              <div class="productCard boxShadow">
+                <img
+                  src="./assets/img/acer/netbook1/acer1.webp"
+                  alt="notebook Acer"
+                  class="productImg"
+                />
+                <div class="cardText">
+                  <p class="brand">Acer</p>
+                  <p class="model">Aspire 3515 Family</p>
+                  <p class="cpu">Intel Celeron N4500</p>
+                  <p class="ramAndStorage">
+                    8gb <span class="divider">|</span> 128gb SSD
+                  </p>
+                  <p class="precio">$450.000</p>
+                  <button class="addToCardBtn">Agregar al Carrito</button>
+                </div>
+              </div>
+              <div class="productCard boxShadow">
+                <img
+                  src="./assets/img/acer/netbook1/acer1.webp"
+                  alt="notebook Acer"
+                  class="productImg"
+                />
+                <div class="cardText">
+                  <p class="brand">Acer</p>
+                  <p class="model">Aspire 3515 Family</p>
+                  <p class="cpu">Intel Celeron N4500</p>
+                  <p class="ramAndStorage">
+                    8gb <span class="divider">|</span> 128gb SSD
+                  </p>
+                  <p class="precio">$450.000</p>
+                  <button class="addToCardBtn">Agregar al Carrito</button>
+                </div>
+              </div>
+            </div>
+            <div class="pagesContainer">
+              <button class="loadBtn">Cargar mas</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
     <footer id="footer"></footer>
+    <script src="./assets/data/data.js"></script>
     <script src="./assets/main.js"></script>
   </body>
 </html>

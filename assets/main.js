@@ -239,13 +239,16 @@ const indicateMobile = (event) => {
 
 //iniciaciones generales de la pagina
 const init = () => {
+  //Slider
   document.addEventListener("DOMContentLoaded", initialSliderCall);
   slider.addEventListener("click", userChangesSlide);
+  indicateMobile(mediaQuerySlider);
+  //menus-carrito
   menuIcon.addEventListener("click", handleMenuClick);
   cartIcon.addEventListener("click", handleCartClick);
   mediaQuerySlider.addEventListener("change", indicateMobile);
   blurDiv.addEventListener("click", closeMenus);
-  indicateMobile(mediaQuerySlider);
+  //productos
 };
-
+console.log(data);
 init();
