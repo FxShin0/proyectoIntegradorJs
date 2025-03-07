@@ -1,4 +1,4 @@
-let data = [
+let productData = [
   {
     id: 1,
     nombre: "Notebook Philco N14P4020",
@@ -60,7 +60,7 @@ let data = [
     modelo: "Exolite W1",
     tamPantalla: "11 Pulgadas",
     ram: "4gb",
-    almacenamiento: "128gb",
+    almacenamiento: "128gb SSD",
     os: "Windows 11",
     procesador: "Intel Celeron N4020",
     imagenes: [
@@ -258,7 +258,7 @@ let data = [
     modelo: "Nitro 5 AN515-55",
     tamPantalla: "15.6 pulgadas",
     ram: "12gb",
-    almacenamiento: "256gb SSD - 1TB HDD",
+    almacenamiento: "256gb SSD - 1tb HDD",
     os: "Windows 10",
     procesador: "Intel core i5 10300H",
     imagenes: [

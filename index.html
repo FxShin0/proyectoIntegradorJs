@@ -130,156 +130,52 @@
       <section id="productos" class="maxWidth">
         <div class="sectionTitle">Busca tu Notebook!</div>
         <div class="filtersAndProductsContainer">
-          <div class="filtersContainer boxShadow">
-            <div class="filter">
-              <p class="downIndicator">+</p>
-              <p class="upIndicator hideInd">-</p>
-              <p class="filterName">Estado</p>
-              <div class="filterOptions">
-                <button class="filterBtn">Nuevo</button>
-                <button class="filterBtn">Reacondicionado</button>
-              </div>
-            </div>
-            <div class="filter">
-              <p class="downIndicator">+</p>
-              <p class="upIndicator hideInd">-</p>
-              <p class="filterName">Marca</p>
-              <div class="filterOptions">
-                <button class="filterBtn filterBtnSelected">Acer</button>
-                <button class="filterBtn">Dell</button>
-                <!-- Aca irian todos -->
-              </div>
-            </div>
-            <div class="filter">
-              <p class="downIndicator">+</p>
-              <p class="upIndicator hideInd">-</p>
-              <p class="filterName">Almacenamiento</p>
-              <div class="filterOptions">
-                <button class="filterBtn">128gb SSD</button>
-                <button class="filterBtn">256gb SSD</button>
-                <!-- Aca irian todos -->
-              </div>
-            </div>
-            <div class="filter">
-              <p class="downIndicator">+</p>
-              <p class="upIndicator hideInd">-</p>
-              <p class="filterName">Ram</p>
-              <div class="filterOptions">
-                <button class="filterBtn">8gb</button>
-                <button class="filterBtn">4gb</button>
-                <!-- Aca irian todos -->
-              </div>
-            </div>
-            <div class="filter">
-              <p class="downIndicator">+</p>
-              <p class="upIndicator hideInd">-</p>
-              <p class="filterName">Precio</p>
-              <div class="filterOptions prices">
-                <div class="priceRangeInput">
-                  <label for="min">Minimo: </label>
-                  <input type="number" id="min" class="priceInput boxShadow" />
+          <div class="filtersAndButtonsContainer boxShadow">
+            <div class="filtersContainer">
+              <div class="filter">
+                <p class="downIndicator">+</p>
+                <p class="upIndicator hideInd">-</p>
+                <p class="filterName">Estado</p>
+                <div class="filterOptions">
+                  <button class="filterBtn">Nuevo</button>
+                  <button class="filterBtn">Reacondicionado</button>
                 </div>
-                <div class="priceRangeInput">
-                  <label for="max">Maximo: </label>
-                  <input type="number" id="max" class="priceInput boxShadow" />
+              </div>
+              <div class="dynamicFilters"></div>
+              <div class="filter">
+                <p class="downIndicator">+</p>
+                <p class="upIndicator hideInd">-</p>
+                <p class="filterName">Precio</p>
+                <div class="filterOptions prices">
+                  <div class="priceRangeInput">
+                    <label for="min">Minimo: </label>
+                    <input
+                      type="number"
+                      id="min"
+                      class="priceInput boxShadow"
+                    />
+                  </div>
+                  <div class="priceRangeInput">
+                    <label for="max">Maximo: </label>
+                    <input
+                      type="number"
+                      id="max"
+                      class="priceInput boxShadow"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="filterSRBtnsContainer">
+            <div class="sendResetContainer">
               <button class="sendBtn">Buscar</button>
               <button class="resetFiltersBtn">Quitar Filtros</button>
             </div>
           </div>
           <div class="productsAndPagesContainer boxShadow">
-            <div class="productsContainer">
-              <div class="productCard boxShadow">
-                <img
-                  src="./assets/img/acer/netbook1/acer1.webp"
-                  alt="notebook Acer"
-                  class="productImg"
-                />
-                <div class="cardText">
-                  <p class="brand">Acer</p>
-                  <p class="model">Aspire 3515 Family</p>
-                  <p class="cpu">Intel Celeron N4500 ababababbabaaaaa</p>
-                  <p class="ramAndStorage">
-                    8gb <span class="divider">|</span> 128gb SSD
-                  </p>
-                  <p class="precio">$450.000</p>
-                  <button class="addToCardBtn">Agregar al Carrito</button>
-                </div>
-              </div>
-              <div class="productCard boxShadow">
-                <img
-                  src="./assets/img/acer/netbook1/acer1.webp"
-                  alt="notebook Acer"
-                  class="productImg"
-                />
-                <div class="cardText">
-                  <p class="brand">Acer</p>
-                  <p class="model">Aspire 3515 Family</p>
-                  <p class="cpu">Intel Celeron N4500</p>
-                  <p class="ramAndStorage">
-                    8gb <span class="divider">|</span> 128gb SSD
-                  </p>
-                  <p class="precio">$450.000</p>
-                  <button class="addToCardBtn">Agregar al Carrito</button>
-                </div>
-              </div>
-              <div class="productCard boxShadow">
-                <img
-                  src="./assets/img/acer/netbook1/acer1.webp"
-                  alt="notebook Acer"
-                  class="productImg"
-                />
-                <div class="cardText">
-                  <p class="brand">Acer</p>
-                  <p class="model">Aspire 3515 Family</p>
-                  <p class="cpu">Intel Celeron N4500</p>
-                  <p class="ramAndStorage">
-                    8gb <span class="divider">|</span> 128gb SSD
-                  </p>
-                  <p class="precio">$450.000</p>
-                  <button class="addToCardBtn">Agregar al Carrito</button>
-                </div>
-              </div>
-              <div class="productCard boxShadow">
-                <img
-                  src="./assets/img/acer/netbook1/acer1.webp"
-                  alt="notebook Acer"
-                  class="productImg"
-                />
-                <div class="cardText">
-                  <p class="brand">Acer</p>
-                  <p class="model">Aspire 3515 Family</p>
-                  <p class="cpu">Intel Celeron N4500</p>
-                  <p class="ramAndStorage">
-                    8gb <span class="divider">|</span> 128gb SSD
-                  </p>
-                  <p class="precio">$450.000</p>
-                  <button class="addToCardBtn">Agregar al Carrito</button>
-                </div>
-              </div>
-              <div class="productCard boxShadow">
-                <img
-                  src="./assets/img/acer/netbook1/acer1.webp"
-                  alt="notebook Acer"
-                  class="productImg"
-                />
-                <div class="cardText">
-                  <p class="brand">Acer</p>
-                  <p class="model">Aspire 3515 Family</p>
-                  <p class="cpu">Intel Celeron N4500</p>
-                  <p class="ramAndStorage">
-                    8gb <span class="divider">|</span> 128gb SSD
-                  </p>
-                  <p class="precio">$450.000</p>
-                  <button class="addToCardBtn">Agregar al Carrito</button>
-                </div>
-              </div>
-            </div>
+            <div class="productsContainer"></div>
             <div class="pagesContainer">
-              <button class="loadBtn">Cargar mas</button>
+              <button class="loadBtn">Mostrar mas</button>
+              <button class="showLessBtn hide">Mostrar menos</button>
             </div>
           </div>
         </div>

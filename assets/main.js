@@ -12,6 +12,13 @@ const blurDiv = document.querySelector(".blur");
 //Componentes relacionados al carrito
 const cartIcon = document.querySelector("#cartIcon");
 const cart = document.querySelector(".cart");
+//Componentes relacionados al filtrado
+const dynamicFiltersContainer = document.querySelector(".dynamicFilters");
+const sendResetContainer = document.querySelector(".sendResetContainer");
+//Componentes relacionados a los productos
+const productsContainer = document.querySelector(".productsContainer");
+const loadBtn = document.querySelector(".loadBtn");
+const showLessBtn = document.querySelector(".showLessBtn");
 
 //appState para control de estados
 let appState = {
@@ -34,8 +41,21 @@ let appState = {
     btnsAreBlocked: false,
     isMobile: false,
   },
+  productState: {
+    activeFilters: {
+      condition: null,
+      brand: null,
+      storage: null,
+      ram: null,
+      priceMin: null,
+      priceMax: null,
+    },
+    pageElemCount: 9, //controla la cantidad de productos que se muestran cargados en pantalla
+    totalProducts: productData.length,
+    currentPageIndex: 0,
+    pagedProductVec: [],
+  },
 };
-
 //Funcionalidad del SLIDER DEL HERO
 //marcado de puntos selectores para indicar los activados y desactivados
 const markDots = (selectedDotIndex) => {
@@ -237,6 +257,181 @@ const indicateMobile = (event) => {
   }
 };
 
+//FILTROS
+
+//funcion que agrega un valor a un array, funciona como un set, agrega si no existe el valor
+// de a paso se normaliza el valor quitando espacios y poniendo como mayusculas el primer char
+const addToArray = (array, value) => {
+  let normalizedValue = value.trim();
+  normalizedValue =
+    normalizedValue.charAt(0).toUpperCase() + normalizedValue.slice(1);
+  if (!array.includes(normalizedValue)) array.push(normalizedValue);
+};
+
+//funcion que carga los valores de almacenamiento de las notebook, algunas tienen
+//mas de un tipo de medio de almacenamiento, vienen separado por guion asi que se los
+//debe tratar de manera diferente, sino apareceria como filtro algo como "256gb ssd - 1tb hdd"
+//cuando en realidad son dos medios diferentes
+const loadStorageValues = (array, storages) => {
+  //de tener mas de un metodo de almacenamiento vendran separados por un guion
+  let allStorages = storages.split("-");
+  for (let storage of allStorages) addToArray(array, storage);
+};
+
+const createFilterBtnTemplate = (filterValue) => {
+  return `<button class="filterBtn" data-filterValue="${filterValue.toLowerCase()}">${filterValue}</button>`;
+};
+
+//criterio de ordenamiento en caso de que querramos ordenar almacenamientos
+const storageSort = (storage1, storage2) => {
+  storage1 = storage1.toLowerCase();
+  storage2 = storage2.toLowerCase();
+  if (storage1.includes("gb") && storage2.includes("gb")) {
+    storage1 = parseFloat(storage1.split("g")[0]);
+    storage2 = parseFloat(storage2.split("g")[0]);
+    return storage1 - storage2;
+  } else if (storage1.includes("tb") && storage2.includes("tb")) {
+    storage1 = parseFloat(storage1.split("t")[0]);
+    storage2 = parseFloat(storage2.split("t")[0]);
+    return storage1 - storage2;
+  } else if (storage1.includes("tb") && !storage2.includes("tb")) {
+    return 1;
+  } else {
+    return -1;
+  }
+};
+
+//criterio de ordenamiento para los distintos valores
+const sortFilterValues = (filters, filterName) => {
+  switch (filterName) {
+    case "Marca":
+      return filters.sort(); //orden alfabetico para marcas
+    case "Almacenamiento":
+      return filters.sort(storageSort); //criterio especial para almacenamientos
+    case "Ram":
+      return filters.sort(storageSort);
+  }
+};
+
+//creacion dinamica de filtros en base a los productos disponibles
+const createFilters = () => {
+  let injectHTML = "";
+  let allFilterValues = { Marca: [], Almacenamiento: [], Ram: [] };
+  //cargar los posibles valores de cada filtro
+  for (let product of productData) {
+    let { marca, almacenamiento, ram } = product;
+    addToArray(allFilterValues.Marca, marca);
+    //almacenamiento requiere un tratamiento especial porque puede ser que tenga tanto ssd como hdd
+    loadStorageValues(allFilterValues.Almacenamiento, almacenamiento);
+    addToArray(allFilterValues.Ram, ram);
+  }
+
+  //generar los filtros correspondientes
+  for (let filterName in allFilterValues) {
+    //ordenamos el array para que quede en orden alfabetico o en el caso de memoria
+    //queden de menor a mayor valor
+    allFilterValues[filterName] = sortFilterValues(
+      allFilterValues[filterName],
+      filterName
+    );
+    let filterOptionsHTML = allFilterValues[filterName]
+      .map(createFilterBtnTemplate)
+      .join("");
+    injectHTML += `<div class="filter">
+                  <p class="downIndicator">+</p>
+                  <p class="upIndicator hideInd">-</p>
+                  <p class="filterName">${filterName}</p>
+                  <div class="filterOptions">
+                    ${filterOptionsHTML}
+                  </div>
+                </div>`;
+  }
+  //inyectar el html en el div de filtros dinamicos
+  dynamicFiltersContainer.innerHTML += injectHTML;
+};
+
+//productos
+
+//criterio de ordenamiento para precios (menor a mayor)
+const byPrice = (product1, product2) => {
+  return product1.precio - product2.precio;
+};
+
+//inicializacion del vector de paginas de productos
+const setInitialProductVec = () => {
+  let { pagedProductVec, pageElemCount } = appState.productState;
+  let sortedProductData = productData.sort(byPrice);
+  for (let x = 0; x < sortedProductData.length; x += pageElemCount)
+    pagedProductVec.push(productData.slice(x, x + pageElemCount));
+};
+
+//creacion de la plantilla html dado un producto
+const createProductTemplate = (product) => {
+  return `<div class="productCard boxShadow">
+                <img
+                  src="${product.imagenes[0]}"
+                  alt="notebook ${product.marca + product.modelo}"
+                  class="productImg"
+                />
+                <div class="cardText">
+                  <p class="brand">${product.marca}</p>
+                  <p class="model">${product.modelo}</p>
+                  <p class="cpu">${product.procesador}</p>
+                  <p class="os">${product.os}</p>
+                  <p class="condition">${product.estado}</p>
+                  <p class="ramAndStorage">
+                    ${product.ram} <span class="divider">|</span> ${
+    product.almacenamiento
+  }
+                  </p>
+                  <p class="precio">${
+                    "$" + product.precio.toLocaleString("es-AR")
+                  }</p>
+                  <button class="addToCardBtn">Agregar al Carrito</button>
+                </div>
+              </div>`;
+};
+
+//renderizado de productos y verificacion de paginas
+const renderProducts = () => {
+  let { pagedProductVec, currentPageIndex } = appState.productState;
+  console.log("Esto: " + currentPageIndex);
+  productsContainer.innerHTML += pagedProductVec[currentPageIndex]
+    .map(createProductTemplate)
+    .join("");
+
+  //mostramos el boton de mostrar en caso de que hayan mas paginas por cargar
+  if (currentPageIndex < pagedProductVec.length - 1)
+    loadBtn.classList.remove("hide");
+};
+
+//funcion que carga una nueva pagina
+const loadNewPage = () => {
+  appState.productState.currentPageIndex++;
+  renderProducts();
+
+  //si el indice ya apunta a la ultima pagina ocultamos el boton luego de renderizar
+  //y reseteamos el indice para futuros usos
+  if (
+    appState.productState.currentPageIndex >=
+    appState.productState.pagedProductVec.length - 1
+  ) {
+    loadBtn.classList.add("hide");
+    showLessBtn.classList.remove("hide");
+    appState.productState.currentPageIndex = 0;
+  }
+};
+
+//funcion que sube al principio de la lista de productos a la vez que
+//vuelve a la pagina 0
+const showLessPages = () => {
+  showLessBtn.classList.add("hide");
+  loadBtn.classList.remove("hide");
+  productsContainer.innerHTML = "";
+  renderProducts();
+  productsContainer.scrollIntoView();
+};
+
 //iniciaciones generales de la pagina
 const init = () => {
   //Slider
@@ -248,7 +443,12 @@ const init = () => {
   cartIcon.addEventListener("click", handleCartClick);
   mediaQuerySlider.addEventListener("change", indicateMobile);
   blurDiv.addEventListener("click", closeMenus);
+  //filtros
+  createFilters();
   //productos
+  setInitialProductVec();
+  renderProducts();
+  loadBtn.addEventListener("click", loadNewPage);
+  showLessBtn.addEventListener("click", showLessPages);
 };
-console.log(data);
 init();

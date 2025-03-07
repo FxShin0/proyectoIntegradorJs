@@ -10,8 +10,13 @@
     justify-content: center;
     align-items: center;
   }
+  .filtersAndButtonsContainer {
+    width: 100%;
+  }
+  .dynamicFilters {
+    justify-content: center;
+  }
   .filtersContainer {
-    margin-top: 15px;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
