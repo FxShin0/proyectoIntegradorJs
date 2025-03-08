@@ -137,8 +137,20 @@
                 <p class="upIndicator hideInd">-</p>
                 <p class="filterName">Estado</p>
                 <div class="filterOptions">
-                  <button class="filterBtn">Nuevo</button>
-                  <button class="filterBtn">Reacondicionado</button>
+                  <button
+                    class="btn filterBtn"
+                    data-filter-value="nuevo"
+                    data-filter-type="Estado"
+                  >
+                    Nuevo
+                  </button>
+                  <button
+                    class="btn filterBtn"
+                    data-filter-value="reacondicionado"
+                    data-filter-type="Estado"
+                  >
+                    Reacondicionado
+                  </button>
                 </div>
               </div>
               <div class="dynamicFilters"></div>
@@ -164,17 +176,18 @@
                     />
                   </div>
                 </div>
+                <button class="resetPrice btn">Borrar Precios</button>
               </div>
             </div>
             <div class="sendResetContainer">
-              <button class="sendBtn">Buscar</button>
-              <button class="resetFiltersBtn">Quitar Filtros</button>
+              <button class="sendBtn btn">Buscar</button>
+              <button class="resetFiltersBtn btn">Quitar Filtros</button>
             </div>
           </div>
           <div class="productsAndPagesContainer boxShadow">
             <div class="productsContainer"></div>
             <div class="pagesContainer">
-              <button class="loadBtn">Mostrar mas</button>
+              <button class="loadBtn btn">Mostrar mas</button>
               <button class="showLessBtn hide">Mostrar menos</button>
             </div>
           </div>

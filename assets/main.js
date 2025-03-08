@@ -15,10 +15,14 @@ const cart = document.querySelector(".cart");
 //Componentes relacionados al filtrado
 const dynamicFiltersContainer = document.querySelector(".dynamicFilters");
 const sendResetContainer = document.querySelector(".sendResetContainer");
+const filtersContainer = document.querySelector(".filtersContainer");
 //Componentes relacionados a los productos
 const productsContainer = document.querySelector(".productsContainer");
 const loadBtn = document.querySelector(".loadBtn");
 const showLessBtn = document.querySelector(".showLessBtn");
+const maxPrice = document.querySelector("#max");
+const minPrice = document.querySelector("#min");
+const resetPriceBtn = document.querySelector(".resetPrice");
 
 //appState para control de estados
 let appState = {
@@ -43,10 +47,10 @@ let appState = {
   },
   productState: {
     activeFilters: {
-      condition: null,
-      brand: null,
-      storage: null,
-      ram: null,
+      Estado: null,
+      Marca: null,
+      Almacenamiento: null,
+      Ram: null,
       priceMin: null,
       priceMax: null,
     },
@@ -278,8 +282,8 @@ const loadStorageValues = (array, storages) => {
   for (let storage of allStorages) addToArray(array, storage);
 };
 
-const createFilterBtnTemplate = (filterValue) => {
-  return `<button class="filterBtn" data-filterValue="${filterValue.toLowerCase()}">${filterValue}</button>`;
+const createFilterBtnTemplate = (filterValue, filterType) => {
+  return `<button class="filterBtn btn" data-filter-value="${filterValue.toLowerCase()}" data-filter-type="${filterType}">${filterValue}</button>`;
 };
 
 //criterio de ordenamiento en caso de que querramos ordenar almacenamientos
@@ -335,7 +339,9 @@ const createFilters = () => {
       filterName
     );
     let filterOptionsHTML = allFilterValues[filterName]
-      .map(createFilterBtnTemplate)
+      .map((filterValue) => {
+        return createFilterBtnTemplate(filterValue, filterName);
+      })
       .join("");
     injectHTML += `<div class="filter">
                   <p class="downIndicator">+</p>
@@ -358,11 +364,18 @@ const byPrice = (product1, product2) => {
 };
 
 //inicializacion del vector de paginas de productos
-const setInitialProductVec = () => {
-  let { pagedProductVec, pageElemCount } = appState.productState;
-  let sortedProductData = productData.sort(byPrice);
+const splitProductVector = (productVec) => {
+  let { pageElemCount } = appState.productState;
+  let newVec = [];
+  let sortedProductData = productVec.sort(byPrice);
   for (let x = 0; x < sortedProductData.length; x += pageElemCount)
-    pagedProductVec.push(productData.slice(x, x + pageElemCount));
+    newVec.push(productVec.slice(x, x + pageElemCount));
+  appState.productState.pagedProductVec = newVec;
+  console.log("asignado en split");
+  console.log(appState.productState.pagedProductVec);
+};
+const setInitialProductVec = () => {
+  splitProductVector(productData);
 };
 
 //creacion de la plantilla html dado un producto
@@ -395,7 +408,13 @@ const createProductTemplate = (product) => {
 //renderizado de productos y verificacion de paginas
 const renderProducts = () => {
   let { pagedProductVec, currentPageIndex } = appState.productState;
-  console.log("Esto: " + currentPageIndex);
+  if (pagedProductVec.length === 0) {
+    productsContainer.innerHTML =
+      "Oops! No tenemos una laptop con esas caracteristicas :/";
+    loadBtn.classList.add("hide");
+    return;
+  }
+  if (currentPageIndex === 0) productsContainer.innerHTML = "";
   productsContainer.innerHTML += pagedProductVec[currentPageIndex]
     .map(createProductTemplate)
     .join("");
@@ -403,6 +422,7 @@ const renderProducts = () => {
   //mostramos el boton de mostrar en caso de que hayan mas paginas por cargar
   if (currentPageIndex < pagedProductVec.length - 1)
     loadBtn.classList.remove("hide");
+  else loadBtn.classList.add("hide");
 };
 
 //funcion que carga una nueva pagina
@@ -432,6 +452,122 @@ const showLessPages = () => {
   productsContainer.scrollIntoView();
 };
 
+const updateSelectedFilter = (target) => {
+  for (let child of target.parentNode.children) {
+    if (child.dataset.filterValue !== target.dataset.filterValue)
+      child.classList.remove("filterBtnSelected");
+    else child.classList.add("filterBtnSelected");
+  }
+};
+
+const updateFilterBtnStatus = (target) => {
+  let { activeFilters } = appState.productState;
+  let { filterValue, filterType } = target.dataset;
+  if (target.classList.contains("filterBtnSelected")) {
+    activeFilters[filterType] = null;
+    target.classList.remove("filterBtnSelected");
+  } else {
+    activeFilters[filterType] = filterValue.trim().toLowerCase();
+    updateSelectedFilter(target);
+  }
+};
+
+const handleFiltersClick = ({ target }) => {
+  if (target.classList.contains("filterBtn")) {
+    updateFilterBtnStatus(target);
+  }
+};
+
+const resetPriceInput = () => {
+  maxPrice.value = "";
+  minPrice.value = "";
+  appState.productState.activeFilters.priceMax = null;
+  appState.productState.activeFilters.priceMin = null;
+};
+
+const resetActiveFilters = () => {
+  for (let filter in appState.productState.activeFilters)
+    appState.productState.activeFilters[filter] = null;
+};
+
+const resetFilterBtns = () => {
+  let filterBtns = document.querySelectorAll(".filterBtn");
+  for (let btn of filterBtns) btn.classList.remove("filterBtnSelected");
+};
+
+const generalFilterReset = () => {
+  resetActiveFilters();
+  resetFilterBtns();
+  resetPriceInput();
+};
+
+const isFilterValidProduct = (product) => {
+  let { activeFilters } = appState.productState;
+  console.log("evaluando");
+  console.log(activeFilters);
+  if (activeFilters.Estado !== null) {
+    console.log(
+      "producto: " +
+        product.estado.trim().toLowerCase() +
+        " filtro: " +
+        activeFilters.Estado
+    );
+    if (product.estado.trim().toLowerCase() !== activeFilters.Estado)
+      return false;
+    console.log("Este fue pasado");
+  }
+  if (activeFilters.Marca !== null) {
+    if (product.marca.trim().toLowerCase() !== activeFilters.Marca)
+      return false;
+  }
+  if (activeFilters.Almacenamiento !== null) {
+    if (
+      !product.almacenamiento
+        .trim()
+        .toLowerCase()
+        .includes(activeFilters.Almacenamiento)
+    )
+      return false;
+  }
+  if (activeFilters.Ram !== null) {
+    if (product.ram.trim().toLowerCase() !== activeFilters.Ram) return false;
+  }
+  if (activeFilters.priceMax !== null) {
+    if (product.precio > activeFilters.priceMax) return false;
+  }
+  if (activeFilters.priceMin !== null) {
+    if (product.precio < activeFilters.priceMin) return false;
+  }
+  return true;
+};
+
+const loadPriceRangeValues = () => {
+  if (maxPrice.value !== "")
+    appState.productState.activeFilters.priceMax = Number(maxPrice.value);
+  else appState.productState.activeFilters.priceMax = null;
+  if (minPrice.value !== "")
+    appState.productState.activeFilters.priceMin = Number(minPrice.value);
+  else appState.productState.activeFilters.priceMin = null;
+};
+
+const filterAndSearch = () => {
+  loadPriceRangeValues();
+  let filteredProducts = productData.filter(isFilterValidProduct);
+  console.log("antes de split");
+  console.log(filteredProducts);
+  splitProductVector(filteredProducts);
+  renderProducts();
+};
+
+//funcion que resetea los filtros o hace una busqueda filtrando segun corresponda
+const handleSendReset = ({ target }) => {
+  //reseteo de filtros
+  if (target.classList.contains("resetFiltersBtn")) {
+    generalFilterReset();
+  } //filtrado
+  else if (target.classList.contains("sendBtn")) filterAndSearch();
+};
+
 //iniciaciones generales de la pagina
 const init = () => {
   //Slider
@@ -445,10 +581,14 @@ const init = () => {
   blurDiv.addEventListener("click", closeMenus);
   //filtros
   createFilters();
+  resetPriceBtn.addEventListener("click", resetPriceInput);
   //productos
   setInitialProductVec();
   renderProducts();
   loadBtn.addEventListener("click", loadNewPage);
   showLessBtn.addEventListener("click", showLessPages);
+  //filtros-productos
+  filtersContainer.addEventListener("click", handleFiltersClick);
+  sendResetContainer.addEventListener("click", handleSendReset);
 };
 init();
