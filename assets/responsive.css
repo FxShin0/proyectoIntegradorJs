@@ -51,23 +51,7 @@
     align-items: center;
     display: flex;
   }
-  .prices {
-    padding: 10px 15px;
-  }
-  .priceRangeInput {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-  }
 
-  #min,
-  #max {
-    width: 150px;
-  }
-  .resetPrice {
-    margin-top: 0;
-  }
   .showOption {
     display: flex;
   }

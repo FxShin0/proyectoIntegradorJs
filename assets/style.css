@@ -409,7 +409,7 @@ html {
   background: #eef9fc;
 }
 
-.sendResetContainer {
+.resetContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -420,6 +420,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  min-width: 250px;
 }
 
 .productsAndPagesContainer {
@@ -484,6 +485,10 @@ html {
   font-size: 1.3rem;
   margin-bottom: 20px;
   cursor: pointer;
+}
+
+.showLessBtn {
+  font-size: 1.05rem;
 }
 .cardText {
   display: flex;
@@ -553,10 +558,6 @@ html {
   -o-transition: all 0.2s ease;
 }
 
-.resetPrice {
-  margin-top: 10px;
-}
-
 .filterBtnSelected {
   background: orangered;
 }
@@ -566,16 +567,6 @@ html {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-}
-
-.priceInput {
-  border: none;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  font-size: 1.25rem;
 }
 
 .filter {

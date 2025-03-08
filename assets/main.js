@@ -14,15 +14,12 @@ const cartIcon = document.querySelector("#cartIcon");
 const cart = document.querySelector(".cart");
 //Componentes relacionados al filtrado
 const dynamicFiltersContainer = document.querySelector(".dynamicFilters");
-const sendResetContainer = document.querySelector(".sendResetContainer");
+const resetContainer = document.querySelector(".resetContainer");
 const filtersContainer = document.querySelector(".filtersContainer");
 //Componentes relacionados a los productos
 const productsContainer = document.querySelector(".productsContainer");
 const loadBtn = document.querySelector(".loadBtn");
 const showLessBtn = document.querySelector(".showLessBtn");
-const maxPrice = document.querySelector("#max");
-const minPrice = document.querySelector("#min");
-const resetPriceBtn = document.querySelector(".resetPrice");
 
 //appState para control de estados
 let appState = {
@@ -47,17 +44,16 @@ let appState = {
   },
   productState: {
     activeFilters: {
-      Estado: null,
-      Marca: null,
-      Almacenamiento: null,
-      Ram: null,
-      priceMin: null,
-      priceMax: null,
+      estado: null,
+      marca: null,
+      almacenamiento: null,
+      ram: null,
     },
     pageElemCount: 9, //controla la cantidad de productos que se muestran cargados en pantalla
     totalProducts: productData.length,
     currentPageIndex: 0,
     pagedProductVec: [],
+    priceMinToMax: true,
   },
 };
 //Funcionalidad del SLIDER DEL HERO
@@ -308,11 +304,11 @@ const storageSort = (storage1, storage2) => {
 //criterio de ordenamiento para los distintos valores
 const sortFilterValues = (filters, filterName) => {
   switch (filterName) {
-    case "Marca":
+    case "marca":
       return filters.sort(); //orden alfabetico para marcas
-    case "Almacenamiento":
+    case "almacenamiento":
       return filters.sort(storageSort); //criterio especial para almacenamientos
-    case "Ram":
+    case "ram":
       return filters.sort(storageSort);
   }
 };
@@ -320,14 +316,14 @@ const sortFilterValues = (filters, filterName) => {
 //creacion dinamica de filtros en base a los productos disponibles
 const createFilters = () => {
   let injectHTML = "";
-  let allFilterValues = { Marca: [], Almacenamiento: [], Ram: [] };
+  let allFilterValues = { marca: [], almacenamiento: [], ram: [] };
   //cargar los posibles valores de cada filtro
   for (let product of productData) {
     let { marca, almacenamiento, ram } = product;
-    addToArray(allFilterValues.Marca, marca);
+    addToArray(allFilterValues.marca, marca);
     //almacenamiento requiere un tratamiento especial porque puede ser que tenga tanto ssd como hdd
-    loadStorageValues(allFilterValues.Almacenamiento, almacenamiento);
-    addToArray(allFilterValues.Ram, ram);
+    loadStorageValues(allFilterValues.almacenamiento, almacenamiento);
+    addToArray(allFilterValues.ram, ram);
   }
 
   //generar los filtros correspondientes
@@ -346,7 +342,9 @@ const createFilters = () => {
     injectHTML += `<div class="filter">
                   <p class="downIndicator">+</p>
                   <p class="upIndicator hideInd">-</p>
-                  <p class="filterName">${filterName}</p>
+                  <p class="filterName">${
+                    filterName.charAt(0).toUpperCase() + filterName.slice(1)
+                  }</p>
                   <div class="filterOptions">
                     ${filterOptionsHTML}
                   </div>
@@ -371,8 +369,7 @@ const splitProductVector = (productVec) => {
   for (let x = 0; x < sortedProductData.length; x += pageElemCount)
     newVec.push(productVec.slice(x, x + pageElemCount));
   appState.productState.pagedProductVec = newVec;
-  console.log("asignado en split");
-  console.log(appState.productState.pagedProductVec);
+  appState.productState.currentPageIndex = 0;
 };
 const setInitialProductVec = () => {
   splitProductVector(productData);
@@ -406,48 +403,56 @@ const createProductTemplate = (product) => {
 };
 
 //renderizado de productos y verificacion de paginas
+const setLoadAndLessBtns = () => {
+  let { currentPageIndex, pagedProductVec } = appState.productState;
+  console.log("En set queda indice: " + currentPageIndex);
+  //ocultar ambos botones en caso de que no haya productos que mostrar
+  if (pagedProductVec.length === 0) {
+    loadBtn.classList.add("hide");
+    showLessBtn.classList.add("hide");
+    //ocultar el boton de mostrar menos si aun no se llego a la ultima pagina
+    //mostrar el boton de cargar mas
+  } else if (currentPageIndex < pagedProductVec.length - 1) {
+    loadBtn.classList.remove("hide");
+    showLessBtn.classList.add("hide");
+    //ocultar el boton de cargar mas en caso de estar en la ultima pagina
+    //mostrar el boton de mostrar menos
+  } else if (currentPageIndex == pagedProductVec.length - 1) {
+    loadBtn.classList.add("hide");
+    if (pagedProductVec.length !== 1) showLessBtn.classList.remove("hide");
+    else showLessBtn.classList.add("hide");
+  }
+};
+
 const renderProducts = () => {
   let { pagedProductVec, currentPageIndex } = appState.productState;
+  setLoadAndLessBtns();
+  console.log("recibido: ");
+  console.log(pagedProductVec);
+  console.log("indice actual : " + currentPageIndex);
+  if (currentPageIndex === 0) productsContainer.innerHTML = "";
   if (pagedProductVec.length === 0) {
     productsContainer.innerHTML =
       "Oops! No tenemos una laptop con esas caracteristicas :/";
-    loadBtn.classList.add("hide");
+    setLoadAndLessBtns();
     return;
   }
   if (currentPageIndex === 0) productsContainer.innerHTML = "";
   productsContainer.innerHTML += pagedProductVec[currentPageIndex]
     .map(createProductTemplate)
     .join("");
-
-  //mostramos el boton de mostrar en caso de que hayan mas paginas por cargar
-  if (currentPageIndex < pagedProductVec.length - 1)
-    loadBtn.classList.remove("hide");
-  else loadBtn.classList.add("hide");
 };
 
 //funcion que carga una nueva pagina
 const loadNewPage = () => {
   appState.productState.currentPageIndex++;
   renderProducts();
-
-  //si el indice ya apunta a la ultima pagina ocultamos el boton luego de renderizar
-  //y reseteamos el indice para futuros usos
-  if (
-    appState.productState.currentPageIndex >=
-    appState.productState.pagedProductVec.length - 1
-  ) {
-    loadBtn.classList.add("hide");
-    showLessBtn.classList.remove("hide");
-    appState.productState.currentPageIndex = 0;
-  }
 };
 
 //funcion que sube al principio de la lista de productos a la vez que
 //vuelve a la pagina 0
 const showLessPages = () => {
-  showLessBtn.classList.add("hide");
-  loadBtn.classList.remove("hide");
-  productsContainer.innerHTML = "";
+  appState.productState.currentPageIndex = 0;
   renderProducts();
   productsContainer.scrollIntoView();
 };
@@ -470,19 +475,13 @@ const updateFilterBtnStatus = (target) => {
     activeFilters[filterType] = filterValue.trim().toLowerCase();
     updateSelectedFilter(target);
   }
+  filterAndSearch();
 };
 
 const handleFiltersClick = ({ target }) => {
   if (target.classList.contains("filterBtn")) {
     updateFilterBtnStatus(target);
   }
-};
-
-const resetPriceInput = () => {
-  maxPrice.value = "";
-  minPrice.value = "";
-  appState.productState.activeFilters.priceMax = null;
-  appState.productState.activeFilters.priceMin = null;
 };
 
 const resetActiveFilters = () => {
@@ -498,74 +497,57 @@ const resetFilterBtns = () => {
 const generalFilterReset = () => {
   resetActiveFilters();
   resetFilterBtns();
-  resetPriceInput();
 };
 
 const isFilterValidProduct = (product) => {
   let { activeFilters } = appState.productState;
   console.log("evaluando");
   console.log(activeFilters);
-  if (activeFilters.Estado !== null) {
+  console.log("contra");
+  console.log(product);
+  if (activeFilters.estado !== null) {
     console.log(
       "producto: " +
         product.estado.trim().toLowerCase() +
         " filtro: " +
-        activeFilters.Estado
+        activeFilters.estado
     );
-    if (product.estado.trim().toLowerCase() !== activeFilters.Estado)
+    if (product.estado.trim().toLowerCase() !== activeFilters.estado)
       return false;
     console.log("Este fue pasado");
   }
-  if (activeFilters.Marca !== null) {
-    if (product.marca.trim().toLowerCase() !== activeFilters.Marca)
+  if (activeFilters.marca !== null) {
+    if (product.marca.trim().toLowerCase() !== activeFilters.marca)
       return false;
   }
-  if (activeFilters.Almacenamiento !== null) {
+  if (activeFilters.almacenamiento !== null) {
     if (
       !product.almacenamiento
         .trim()
         .toLowerCase()
-        .includes(activeFilters.Almacenamiento)
+        .includes(activeFilters.almacenamiento)
     )
       return false;
   }
-  if (activeFilters.Ram !== null) {
-    if (product.ram.trim().toLowerCase() !== activeFilters.Ram) return false;
-  }
-  if (activeFilters.priceMax !== null) {
-    if (product.precio > activeFilters.priceMax) return false;
-  }
-  if (activeFilters.priceMin !== null) {
-    if (product.precio < activeFilters.priceMin) return false;
+  if (activeFilters.ram !== null) {
+    if (product.ram.trim().toLowerCase() !== activeFilters.ram) return false;
   }
   return true;
 };
 
-const loadPriceRangeValues = () => {
-  if (maxPrice.value !== "")
-    appState.productState.activeFilters.priceMax = Number(maxPrice.value);
-  else appState.productState.activeFilters.priceMax = null;
-  if (minPrice.value !== "")
-    appState.productState.activeFilters.priceMin = Number(minPrice.value);
-  else appState.productState.activeFilters.priceMin = null;
-};
-
 const filterAndSearch = () => {
-  loadPriceRangeValues();
   let filteredProducts = productData.filter(isFilterValidProduct);
-  console.log("antes de split");
-  console.log(filteredProducts);
   splitProductVector(filteredProducts);
   renderProducts();
+  setLoadAndLessBtns();
 };
 
 //funcion que resetea los filtros o hace una busqueda filtrando segun corresponda
-const handleSendReset = ({ target }) => {
+const resetFilters = ({ target }) => {
   //reseteo de filtros
   if (target.classList.contains("resetFiltersBtn")) {
     generalFilterReset();
-  } //filtrado
-  else if (target.classList.contains("sendBtn")) filterAndSearch();
+  }
 };
 
 //iniciaciones generales de la pagina
@@ -581,7 +563,6 @@ const init = () => {
   blurDiv.addEventListener("click", closeMenus);
   //filtros
   createFilters();
-  resetPriceBtn.addEventListener("click", resetPriceInput);
   //productos
   setInitialProductVec();
   renderProducts();
@@ -589,6 +570,6 @@ const init = () => {
   showLessBtn.addEventListener("click", showLessPages);
   //filtros-productos
   filtersContainer.addEventListener("click", handleFiltersClick);
-  sendResetContainer.addEventListener("click", handleSendReset);
+  resetContainer.addEventListener("click", resetFilters);
 };
 init();
