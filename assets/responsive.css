@@ -49,10 +49,10 @@
     max-width: 100%;
     justify-content: center;
     align-items: center;
-    display: flex;
+    display: none;
   }
 
-  .showOption {
+  .showOptions {
     display: flex;
   }
   .downIndicator,
@@ -164,6 +164,9 @@
   }
   .sectionDesc {
     font-size: 18px;
+  }
+  .filterOptions {
+    padding: 10px 20px;
   }
 }
 

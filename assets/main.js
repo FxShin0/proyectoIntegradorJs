@@ -481,9 +481,46 @@ const updateFilterBtnStatus = (target) => {
   filterAndSearch();
 };
 
+const showFilterOptions = (downIndicator) => {
+  let filterOptions, upIndicator;
+  for (let child of downIndicator.parentNode.children) {
+    if (child.classList.contains("filterOptions")) {
+      filterOptions = child;
+    } else if (child.classList.contains("upIndicator")) upIndicator = child;
+  }
+  filterOptions.classList.add("showOptions");
+  downIndicator.classList.add("hideInd");
+  upIndicator.classList.remove("hideInd");
+};
+
+const hideFilterOptions = (upIndicator) => {
+  let filterOptions, downIndicator;
+  for (let child of upIndicator.parentNode.children) {
+    if (child.classList.contains("filterOptions")) {
+      filterOptions = child;
+    } else if (child.classList.contains("downIndicator")) {
+      downIndicator = child;
+    }
+  }
+  filterOptions.classList.remove("showOptions");
+  upIndicator.classList.add("hideInd");
+  downIndicator.classList.remove("hideInd");
+};
+
+const updateFilterMenuStatus = (target) => {
+  if (target.classList.contains("downIndicator")) showFilterOptions(target);
+  else hideFilterOptions(target);
+};
+
 const handleFiltersClick = ({ target }) => {
   if (target.classList.contains("filterBtn")) {
     updateFilterBtnStatus(target);
+  }
+  if (
+    target.classList.contains("downIndicator") ||
+    target.classList.contains("upIndicator")
+  ) {
+    updateFilterMenuStatus(target);
   }
 };
 
