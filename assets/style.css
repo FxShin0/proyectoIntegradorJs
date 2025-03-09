@@ -471,6 +471,47 @@ html {
   max-height: 600px;
 }
 
+.noNetbookFoundCard {
+  width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-direction: column;
+  position: relative;
+  padding: 20px 15px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  background: white;
+  margin: 20px 0px;
+}
+
+.noNetbookText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+}
+
+.NNcardTitle {
+  font-size: 30px;
+  color: #0a5a8b;
+}
+
+.NNcardText {
+  font-size: 18px;
+}
+
+.noNetbookImg {
+  width: 95%;
+  height: 180px;
+}
+
 .loadBtn,
 .showLessBtn {
   all: unset;

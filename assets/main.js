@@ -20,6 +20,7 @@ const filtersContainer = document.querySelector(".filtersContainer");
 const productsContainer = document.querySelector(".productsContainer");
 const loadBtn = document.querySelector(".loadBtn");
 const showLessBtn = document.querySelector(".showLessBtn");
+const noNetbookFound = document.querySelector(".noNetbookFoundCard");
 
 //appState para control de estados
 let appState = {
@@ -405,11 +406,11 @@ const createProductTemplate = (product) => {
 //renderizado de productos y verificacion de paginas
 const setLoadAndLessBtns = () => {
   let { currentPageIndex, pagedProductVec } = appState.productState;
-  console.log("En set queda indice: " + currentPageIndex);
   //ocultar ambos botones en caso de que no haya productos que mostrar
   if (pagedProductVec.length === 0) {
     loadBtn.classList.add("hide");
     showLessBtn.classList.add("hide");
+
     //ocultar el boton de mostrar menos si aun no se llego a la ultima pagina
     //mostrar el boton de cargar mas
   } else if (currentPageIndex < pagedProductVec.length - 1) {
@@ -427,15 +428,17 @@ const setLoadAndLessBtns = () => {
 const renderProducts = () => {
   let { pagedProductVec, currentPageIndex } = appState.productState;
   setLoadAndLessBtns();
-  console.log("recibido: ");
-  console.log(pagedProductVec);
-  console.log("indice actual : " + currentPageIndex);
   if (currentPageIndex === 0) productsContainer.innerHTML = "";
+  //en este caso no renderizamos, solo mostramos la card que indica que no se encontraron notebooks
+  //y hacemos return
   if (pagedProductVec.length === 0) {
-    productsContainer.innerHTML =
-      "Oops! No tenemos una laptop con esas caracteristicas :/";
+    noNetbookFound.classList.remove("hide");
+    productsContainer.classList.add("hide");
     setLoadAndLessBtns();
     return;
+  } else {
+    noNetbookFound.classList.add("hide");
+    productsContainer.classList.remove("hide");
   }
   if (currentPageIndex === 0) productsContainer.innerHTML = "";
   productsContainer.innerHTML += pagedProductVec[currentPageIndex]
@@ -501,20 +504,9 @@ const generalFilterReset = () => {
 
 const isFilterValidProduct = (product) => {
   let { activeFilters } = appState.productState;
-  console.log("evaluando");
-  console.log(activeFilters);
-  console.log("contra");
-  console.log(product);
   if (activeFilters.estado !== null) {
-    console.log(
-      "producto: " +
-        product.estado.trim().toLowerCase() +
-        " filtro: " +
-        activeFilters.estado
-    );
     if (product.estado.trim().toLowerCase() !== activeFilters.estado)
       return false;
-    console.log("Este fue pasado");
   }
   if (activeFilters.marca !== null) {
     if (product.marca.trim().toLowerCase() !== activeFilters.marca)
@@ -545,8 +537,12 @@ const filterAndSearch = () => {
 //funcion que resetea los filtros o hace una busqueda filtrando segun corresponda
 const resetFilters = ({ target }) => {
   //reseteo de filtros
-  if (target.classList.contains("resetFiltersBtn")) {
+  if (
+    target.classList.contains("resetFiltersBtn") ||
+    target.classList.contains("fullCatalog")
+  ) {
     generalFilterReset();
+    filterAndSearch();
   }
 };
 
@@ -568,6 +564,7 @@ const init = () => {
   renderProducts();
   loadBtn.addEventListener("click", loadNewPage);
   showLessBtn.addEventListener("click", showLessPages);
+  noNetbookFound.addEventListener("click", resetFilters);
   //filtros-productos
   filtersContainer.addEventListener("click", handleFiltersClick);
   resetContainer.addEventListener("click", resetFilters);
