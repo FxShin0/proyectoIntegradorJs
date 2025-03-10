@@ -395,6 +395,7 @@ html {
   justify-content: center;
   gap: 10px;
 }
+
 .filtersAndButtonsContainer {
   display: flex;
   flex-direction: column;
@@ -623,6 +624,10 @@ html {
 
 .filterName {
   font-size: 1.125rem;
+}
+
+.filterNameMobile {
+  display: none;
 }
 
 .activeFilters {

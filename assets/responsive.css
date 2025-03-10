@@ -39,11 +39,6 @@
     padding: 7px 5px;
     padding-top: 0px;
   }
-  .filterName {
-    font-size: 1rem;
-    width: 100%;
-    text-align: center;
-  }
   .filterOptions {
     width: 100%;
     max-width: 100%;
@@ -64,6 +59,15 @@
     font-size: 24px;
     right: 7px;
     display: flex;
+  }
+  .filterName {
+    display: none;
+  }
+  .filterNameMobile {
+    display: block;
+    font-size: 1.3rem;
+    width: 100%;
+    text-align: center;
   }
   .hideInd {
     display: none;
@@ -160,13 +164,16 @@
   .sectionTitle {
     font-size: 42px;
     line-height: 1;
-    padding-top: 20px;
+    padding: 20px 0px;
   }
   .sectionDesc {
     font-size: 18px;
   }
   .filterOptions {
     padding: 10px 20px;
+  }
+  .filterNameMobile {
+    font-size: 1rem;
   }
 }
 
