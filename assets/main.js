@@ -50,7 +50,7 @@ let appState = {
       almacenamiento: null,
       ram: null,
     },
-    pageElemCount: 9, //controla la cantidad de productos que se muestran cargados en pantalla
+    pageElemCount: 6, //controla la cantidad de productos que se muestran cargados en pantalla
     totalProducts: productData.length,
     currentPageIndex: 0,
     pagedProductVec: [],
@@ -471,6 +471,7 @@ const updateSelectedFilter = (target) => {
   }
 };
 
+//marca si un filtro esta seleccionado y sino le quita la marca
 const updateFilterBtnStatus = (target) => {
   let { activeFilters } = appState.productState;
   let { filterValue, filterType } = target.dataset;
@@ -484,6 +485,7 @@ const updateFilterBtnStatus = (target) => {
   filterAndSearch();
 };
 
+//maneja la apertura y cierre del menu de filtros en moviles
 const updateFilterMenuStatus = (target) => {
   let downInd, upInd, filterOptions;
   for (let child of target.parentNode.children) {
@@ -496,6 +498,7 @@ const updateFilterMenuStatus = (target) => {
   filterOptions.classList.toggle("showOptions");
 };
 
+//manejador de clicks en la caja de filtros
 const handleFiltersClick = ({ target }) => {
   if (target.classList.contains("filterBtn")) {
     updateFilterBtnStatus(target);
@@ -519,11 +522,13 @@ const resetFilterBtns = () => {
   for (let btn of filterBtns) btn.classList.remove("filterBtnSelected");
 };
 
+//reseteo de filtros
 const generalFilterReset = () => {
   resetActiveFilters();
   resetFilterBtns();
 };
 
+//criterio de filtrado, devuelve true si se cumplen con aquellos filtros activos
 const isFilterValidProduct = (product) => {
   let { activeFilters } = appState.productState;
   if (activeFilters.estado !== null) {

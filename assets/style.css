@@ -30,6 +30,7 @@ html {
   background: #eaf2f6;
   border: solid 1px black;
   font-size: 16px;
+  /* overflow-x: hidden; */
 }
 
 .navbar {
@@ -326,6 +327,7 @@ html {
   font-size: 2.5rem;
   color: #256993;
   font-weight: 500;
+  text-align: center;
 }
 
 .cardsContainer {
@@ -379,7 +381,6 @@ html {
   flex-wrap: wrap;
   padding: 0px 20px;
   padding-top: 20px;
-  padding-bottom: 300px;
 }
 
 .filtersAndProductsContainer {
@@ -598,6 +599,7 @@ html {
   -moz-transition: all 0.2s ease;
   -ms-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
+  border: solid 1px white;
 }
 
 .filterBtnSelected {
@@ -651,19 +653,111 @@ html {
   cursor: pointer;
 }
 
+/* Contactanos */
+#contactanos {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-bottom: 200px;
+}
+
+.contactanosCardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.contactUsCard {
+  padding: 20px 10px;
+  width: 300px;
+  background: #256993;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+.contactCardTitle {
+  font-size: 2.5rem;
+  font-weight: 400;
+}
+
+.cardForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  width: 85%;
+}
+
+.labelInputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.input {
+  width: 100%;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border: none;
+  height: 25px;
+  font-size: 1rem;
+  color: black;
+  padding: 0px 3px;
+}
+
+.textArea {
+  height: 220px;
+  resize: none;
+  font-size: 1rem;
+}
+
+.submitBtn {
+  margin-top: 10px;
+  height: 30px;
+  width: 80px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  background: white;
+  color: black;
+  border: none;
+  font-size: 1rem;
+}
+
+.iframeMap {
+  width: 100%;
+  height: 330px;
+  border: none;
+}
+
+.direction {
+  text-align: center;
+}
+.label {
+  font-size: 1.2rem;
+}
+
 /* Clases de multiple uso */
 .hide {
   display: none;
-}
-
-.hideVisOp {
-  visibility: hidden;
-  opacity: 0;
-}
-
-.showVisOp {
-  visibility: visible;
-  opacity: 1;
 }
 
 .show {

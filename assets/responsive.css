@@ -201,8 +201,13 @@
   .title {
     font-size: 20px;
   }
-  .productCard {
+  .productCard,
+  .contactUsCard {
     width: 250px;
+  }
+
+  #contactanos {
+    padding: 20px 10px;
   }
 }
 
