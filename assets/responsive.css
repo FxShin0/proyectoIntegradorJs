@@ -126,9 +126,14 @@
   .slider {
     height: 325px;
   }
+  .footerTitle,
+  .footerList li,
+  .socialMediaContainer i {
+    font-size: 14px;
+  }
 }
 
-/* Modificacion del slider denuevo y al titulo y desc y subtitulo de sections*/
+/* Modificacion del slider denuevo y al titulo y desc y subtitulo de sections y footer*/
 @media (max-width: 700px) {
   .slider {
     height: 275px;
@@ -141,6 +146,13 @@
   }
   .sectionSubtitle {
     font-size: 28px;
+  }
+  #footer {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 10px;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -174,6 +186,12 @@
   }
   .filterNameMobile {
     font-size: 1rem;
+  }
+  .footerList {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
   }
 }
 

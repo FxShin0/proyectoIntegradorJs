@@ -127,9 +127,10 @@ html {
   gap: 15px;
   height: calc(100vh - 60px);
   position: absolute;
+  padding: 10px 0px;
   top: 60px;
   right: 0px;
-  width: 350px;
+  width: 300px;
   border-left: solid 1px black;
   background: #256993;
   transform: translateX(110%);
@@ -144,6 +145,8 @@ html {
   -ms-transform: translateX(110%);
   -o-transform: translateX(110%);
   z-index: 2;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .showCart {
@@ -167,6 +170,142 @@ html {
   border-bottom: solid 1px white;
   user-select: none;
 }
+
+/* Productos del carrito */
+.cartProductsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.cartProCard {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  background: white;
+  height: 100px;
+  color: black;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  padding: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  position: relative;
+}
+.cartProductImgContainer {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cartProductImgContainer img {
+  height: 70%;
+  width: 90%;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.cartProTextContainer {
+  width: 65%;
+}
+
+.proQuantity {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.quantityBtn {
+  all: unset;
+  background: #256993;
+  color: white;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  padding: 3px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.emptyCartMsg {
+  font-size: 1.3rem;
+}
+
+.nameAndModel {
+  color: #0a5a8b;
+}
+
+.quantity {
+  color: red;
+  font-weight: 700;
+}
+
+.cPrice,
+.orangeSpan {
+  color: orangered;
+  font-weight: 800;
+}
+
+.removeProductBtn {
+  all: unset;
+  background: red;
+  color: white;
+  font-size: 0.6rem;
+  padding: 2px 5px;
+  border-radius: 47%;
+  -webkit-border-radius: 47%;
+  -moz-border-radius: 47%;
+  -ms-border-radius: 47%;
+  -o-border-radius: 47%;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+.cartBtn {
+  all: unset;
+  width: 90%;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.buyBtn {
+  background: white;
+  color: #0a5a8b;
+  border: solid 1px white;
+}
+
+.emptyCartBtn {
+  background: red;
+  color: white;
+  border: solid 1px black;
+}
+
 /* Slider - Hero */
 #hero {
   display: flex;
@@ -639,7 +778,7 @@ html {
   gap: 5px;
 }
 
-.addToCardBtn {
+.addToCartBtn {
   border: none;
   background: #256993;
   color: white;
@@ -656,12 +795,13 @@ html {
 /* Contactanos */
 #contactanos {
   padding: 20px;
+  padding-bottom: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
-  padding-bottom: 200px;
+  gap: 20px;
 }
 
 .contactanosCardContainer {
@@ -674,7 +814,7 @@ html {
 
 .contactUsCard {
   padding: 20px 10px;
-  width: 300px;
+  width: 350px;
   background: #256993;
   color: white;
   display: flex;
@@ -721,6 +861,12 @@ html {
   padding: 0px 3px;
 }
 
+.markedInput {
+  box-shadow: 1px 1px 8px 1px rgba(255, 0, 0, 1);
+  -webkit-box-shadow: 1px 1px 8px 1px rgba(255, 0, 0, 1);
+  -moz-box-shadow: 1px 1px 8px 1px rgba(255, 0, 0, 1);
+}
+
 .textArea {
   height: 220px;
   resize: none;
@@ -740,6 +886,7 @@ html {
   color: black;
   border: none;
   font-size: 1rem;
+  cursor: pointer;
 }
 
 .iframeMap {
@@ -753,6 +900,32 @@ html {
 }
 .label {
   font-size: 1.2rem;
+}
+
+/* footer */
+#footer {
+  background: #256993;
+  color: white;
+  padding: 5px 40px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.footerList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.socialMediaContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Clases de multiple uso */

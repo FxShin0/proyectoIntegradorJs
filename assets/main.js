@@ -1,26 +1,29 @@
 //Traer los componentes del DOM a modificar
-//Componentes relacionados al slider del hero
+//Hero - Slider
 const sliderImg = document.querySelector(".sliderImg");
 const slider = document.querySelector(".slider");
 const dotsDisplay = document.querySelector(".dotsDisplay");
 //Media query relacionado al slider para cambiar a las imagenes cuadradas
 const mediaQuerySlider = window.matchMedia("(max-width:550px)");
-//Componentes relacionados al menu
+//Menu principal
 const menuIcon = document.querySelector("#menuIcon");
 const navList = document.querySelector(".navbarList");
 const blurDiv = document.querySelector(".blur");
-//Componentes relacionados al carrito
+//Carrito
 const cartIcon = document.querySelector("#cartIcon");
 const cart = document.querySelector(".cart");
-//Componentes relacionados al filtrado
+//Filtrado
 const dynamicFiltersContainer = document.querySelector(".dynamicFilters");
 const resetContainer = document.querySelector(".resetContainer");
 const filtersContainer = document.querySelector(".filtersContainer");
-//Componentes relacionados a los productos
+//Productos
 const productsContainer = document.querySelector(".productsContainer");
 const loadBtn = document.querySelector(".loadBtn");
 const showLessBtn = document.querySelector(".showLessBtn");
 const noNetbookFound = document.querySelector(".noNetbookFoundCard");
+//Contactanos
+const submitBtn = document.querySelector(".submitBtn");
+const cartProductsContainer = document.querySelector(".cartProductsContainer");
 
 //appState para control de estados
 let appState = {
@@ -56,6 +59,7 @@ let appState = {
     pagedProductVec: [],
     priceMinToMax: true,
   },
+  cart: null,
 };
 //Funcionalidad del SLIDER DEL HERO
 //marcado de puntos selectores para indicar los activados y desactivados
@@ -401,8 +405,10 @@ const createProductTemplate = (product) => {
                   <p class="precio">${
                     "$" + product.precio.toLocaleString("es-AR")
                   }</p>
-                  <button class="addToCardBtn">Agregar al Carrito</button>
                 </div>
+                <button class="addToCartBtn" data-product-id="${
+                  product.id
+                }">Agregar al Carrito</button>
               </div>`;
 };
 
@@ -512,6 +518,7 @@ const handleFiltersClick = ({ target }) => {
   }
 };
 
+//funciones complementarias del reseteo de filtros
 const resetActiveFilters = () => {
   for (let filter in appState.productState.activeFilters)
     appState.productState.activeFilters[filter] = null;
@@ -528,7 +535,7 @@ const generalFilterReset = () => {
   resetFilterBtns();
 };
 
-//criterio de filtrado, devuelve true si se cumplen con aquellos filtros activos
+//criterio de filtrado, devuelve true si se cumplen con los filtros activos
 const isFilterValidProduct = (product) => {
   let { activeFilters } = appState.productState;
   if (activeFilters.estado !== null) {
@@ -554,6 +561,7 @@ const isFilterValidProduct = (product) => {
   return true;
 };
 
+//filtra los productos y los renderiza (usando funciones)
 const filterAndSearch = () => {
   let filteredProducts = productData.filter(isFilterValidProduct);
   splitProductVector(filteredProducts);
@@ -573,6 +581,147 @@ const resetFilters = ({ target }) => {
   }
 };
 
+//CONTACTANOS
+
+//marca el campo conflictivo
+const markInput = (input) => {
+  let baseTime = 250;
+  input.classList.add("markedInput");
+  setTimeout(() => {
+    input.classList.remove("markedInput");
+  }, baseTime);
+  setTimeout(() => {
+    input.classList.add("markedInput");
+  }, baseTime * 2);
+  setTimeout(() => {
+    input.classList.remove("markedInput");
+  }, baseTime * 3);
+};
+
+//verificacion de email, nos fijamos que contenga @ y un . luego del @
+//ej: hola@hola no es valido, hola.com tampoco, hola@chau.com si.
+const isValidEmail = (input) => {
+  let email = input.value;
+  if (email.indexOf("@") === -1 || email.split("@")[1].indexOf(".") === -1) {
+    alert("El correo ingresado no es valido.");
+    markInput(input);
+    return false;
+  }
+  return true;
+};
+
+//verificacion de los contenidos del formulario
+const sendForm = (e) => {
+  e.preventDefault();
+  let inputs = document.querySelectorAll(".input");
+  for (let input of inputs) {
+    if (input.dataset.type === "Correo") {
+      if (!isValidEmail(input)) return;
+    }
+    if (input.value === "") {
+      alert("El campo " + input.dataset.type + " no puede estar vacio.");
+      markInput(input);
+      return;
+    }
+  }
+  alert("Mensaje Enviado!");
+  for (let input of inputs) {
+    input.value = "";
+  }
+};
+
+//CARRITO
+const loadCart = () => {
+  let savedCart = localStorage.getItem("cart");
+  if (savedCart === null) {
+    appState.cart = [];
+  } else {
+    appState.cart = JSON.parse(savedCart);
+  }
+};
+
+const saveCart = () => {
+  localStorage.setItem("cart", JSON.stringify(appState.cart));
+};
+
+//incrementa la cantidad de un producto en el carrito
+const incrementProductQuantity = (productId) => {
+  let product = appState.cart.find((item) => {
+    return item.id === productId;
+  });
+  if (product) {
+    product.quantity++;
+    return true;
+  }
+  return false;
+};
+
+//si el nombre del producto supera cierto largo remplaza los 3 ultimos caracteres por
+//puntos suspensivos (asi nos evitamos problemas con que se salga el contenido del div)
+const normalizeName = (productName) => {
+  if (productName.length > 35) return productName.slice(0, 33) + "...";
+  return productName;
+};
+
+//genera la plantilla html del producto en carrito
+const generateCartProTemp = (cartProduct) => {
+  let { id, quantity } = cartProduct;
+  let product = productData.find((item) => {
+    return item.id === id;
+  });
+  let { precio, nombre, imagenes } = product;
+  return `<div class="cartProCard boxShadow">
+              <button class="removeProductBtn">X</button>
+              <div class="cartProductImgContainer">
+                <img
+                  src="${imagenes[0]}"
+                  alt="notebook ${normalizeName(nombre)}"
+                />
+              </div>
+              <div class="cartProTextContainer">
+                <div class="nameAndModel">${nombre}</div>
+                <div class="proQuantity">
+                  <button class="quantityBtn qDown">-</button>
+                  <p class="qIndicator">
+                    Cantidad: <span class="quantity">${quantity}</span>
+                  </p>
+                  <button class="quantityBtn qUp">+</button>
+                </div>
+                <div class="priceContainer">
+                  <p>
+                    Precio: <span class="orangeSpan">$</span
+                    ><span class="cPrice">${(
+                      precio * quantity
+                    ).toLocaleString()}</span>
+                  </p>
+                </div>
+              </div>
+            </div>`;
+};
+
+//renderiza el carrito
+const renderCart = () => {
+  cartProductsContainer.innerHTML = appState.cart
+    .map(generateCartProTemp)
+    .join("");
+};
+
+//agrega al carrito un producto elegido desde la seccion de productos
+const addToCart = ({ target }) => {
+  if (target.classList.contains("addToCartBtn")) {
+    let id = Number(target.dataset.productId);
+    if (!incrementProductQuantity(id)) {
+      let newProduct = {
+        id: id,
+        quantity: 1,
+      };
+      appState.cart.push(newProduct);
+    }
+    renderCart();
+    saveCart();
+  }
+};
+
 //iniciaciones generales de la pagina
 const init = () => {
   //Slider
@@ -584,6 +733,9 @@ const init = () => {
   cartIcon.addEventListener("click", handleCartClick);
   mediaQuerySlider.addEventListener("change", indicateMobile);
   blurDiv.addEventListener("click", closeMenus);
+  //carga-carrito
+  loadCart();
+  renderCart();
   //filtros
   createFilters();
   //productos
@@ -595,5 +747,10 @@ const init = () => {
   //filtros-productos
   filtersContainer.addEventListener("click", handleFiltersClick);
   resetContainer.addEventListener("click", resetFilters);
+  //contactanos formulario
+  submitBtn.addEventListener("click", sendForm);
+  //carrito-compra de productos
+  productsContainer.addEventListener("click", addToCart);
+  cart.addEventListener("click", handleCartClick);
 };
 init();

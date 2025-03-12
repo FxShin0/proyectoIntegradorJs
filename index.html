@@ -31,19 +31,21 @@
     />
   </head>
   <body id="body">
-    <header class="header">
+    <header class="header boxShadow">
       <nav class="navbar">
-        <div class="logoAndTitle">
-          <img
-            src="./assets/img/logo/notebookHeavenLogo.png"
-            alt="Notebook Heaven Logo"
-            class="logo"
-          />
-          <h1 class="title">
-            <span class="blueSpan">N</span>otebook
-            <span class="blueSpan">H</span>eaven
-          </h1>
-        </div>
+        <a href="#hero">
+          <div class="logoAndTitle">
+            <img
+              src="./assets/img/logo/notebookHeavenLogo.png"
+              alt="Notebook Heaven Logo"
+              class="logo"
+            />
+            <h1 class="title">
+              <span class="blueSpan">N</span>otebook
+              <span class="blueSpan">H</span>eaven
+            </h1>
+          </div>
+        </a>
         <div class="iconsAndList">
           <ul class="navbarList">
             <li class="navbarListItem">
@@ -66,6 +68,38 @@
         </div>
         <div class="cart">
           <h2 class="cartTitle">Carrito</h2>
+          <div class="cartProductsContainer">
+            <p class="emptyCartMsg hide">
+              Aun no tienes productos en el carrito 😅...
+            </p>
+            <div class="cartProCard boxShadow" data-product-id="1">
+              <button class="removeProductBtn">X</button>
+              <div class="cartProductImgContainer">
+                <img
+                  src="./assets/img/dell/netbook1/dell1.webp"
+                  alt="notebook dell"
+                />
+              </div>
+              <div class="cartProTextContainer">
+                <div class="nameAndModel">Lenovo Ideapad 3202</div>
+                <div class="proQuantity">
+                  <button class="quantityBtn qDown">-</button>
+                  <p class="qIndicator">
+                    Cantidad: <span class="quantity">999</span>
+                  </p>
+                  <button class="quantityBtn qUp">+</button>
+                </div>
+                <div class="priceContainer">
+                  <p>
+                    Precio: <span class="orangeSpan">$</span
+                    ><span class="cPrice">100.000.000</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="cartBtn emptyCartBtn">Vaciar Carrito</button>
+          <button class="cartBtn buyBtn">Comprar</button>
         </div>
         <div class="blur hide"></div>
       </nav>
@@ -185,13 +219,15 @@
         </div>
       </section>
       <section id="contactanos" class="maxWidth">
-        <h2 class="sectionTitle">¿Tienes dudas? Contactanos!</h2>
-        <p class="sectionDesc">
-          Si por alguna razon quieres contactarnos puedes hacerlo a traves de
-          los siguientes medios:
-        </p>
+        <div class="contactanosTextContainer">
+          <h2 class="sectionTitle">¿Tienes dudas? Contactanos!</h2>
+          <p class="sectionDesc">
+            Si por alguna razon quieres contactarnos puedes hacerlo a traves de
+            los siguientes medios:
+          </p>
+        </div>
         <div class="contactanosCardContainer">
-          <div class="contactUsCard">
+          <div class="contactUsCard boxShadow">
             <h3 class="contactCardTitle">Online</h3>
             <form class="cardForm">
               <div class="labelInputContainer">
@@ -200,6 +236,7 @@
                   type="text"
                   id="name"
                   class="input"
+                  data-type="Nombre"
                   placeholder="Ingresa tu nombre..."
                 />
               </div>
@@ -209,6 +246,7 @@
                   type="email"
                   id="email"
                   class="input"
+                  data-type="Correo"
                   placeholder="Ingresa tu correo..."
                 />
               </div>
@@ -216,6 +254,7 @@
                 <label class="label" for="mensaje">Mensaje:</label>
                 <textarea
                   class="input textArea"
+                  data-type="Mensaje"
                   id="mensaje"
                   placeholder="Deja tu mensaje aqui..."
                 ></textarea>
@@ -223,7 +262,7 @@
               <input type="submit" value="Enviar" class="submitBtn" />
             </form>
           </div>
-          <div class="contactUsCard">
+          <div class="contactUsCard boxShadow">
             <h3 class="contactCardTitle">Presencial</h3>
             <p class="direction">
               Larrazabal 5563, B1753GLK Villa Luzuriaga, Buenos Aires
@@ -239,7 +278,19 @@
         </div>
       </section>
     </main>
-    <footer id="footer"></footer>
+    <footer id="footer" class="boxShadow">
+      <a href="#"><p class="footerTitle">Notebook Heaven Ltd.</p></a>
+      <ul class="footerList">
+        <a href="#"><li>Politicas de uso</li></a>
+        <a href="#"><li>Trabaja con nosotros</li></a>
+        <a href="#"><li>Soporte</li></a>
+      </ul>
+      <div class="socialMediaContainer">
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </footer>
     <script src="./assets/data/data.js"></script>
     <script src="./assets/main.js"></script>
   </body>
