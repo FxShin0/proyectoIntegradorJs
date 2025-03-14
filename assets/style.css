@@ -111,7 +111,7 @@ html {
   border: 1px solid rgba(255, 255, 255, 0.125);
   position: absolute;
   top: 60px;
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - 60px);
   z-index: 1;
   left: 0px;
@@ -124,6 +124,7 @@ html {
 .cart {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 15px;
   height: calc(100vh - 60px);
   position: absolute;
@@ -169,6 +170,7 @@ html {
   text-align: center;
   border-bottom: solid 1px white;
   user-select: none;
+  width: 100%;
 }
 
 /* Productos del carrito */
@@ -180,6 +182,7 @@ html {
   justify-content: center;
   align-items: center;
   text-align: center;
+  width: 100%;
 }
 
 .cartProCard {
@@ -219,6 +222,10 @@ html {
 
 .cartProTextContainer {
   width: 65%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .proQuantity {
@@ -244,10 +251,12 @@ html {
 
 .emptyCartMsg {
   font-size: 1.3rem;
+  text-align: center;
 }
 
 .nameAndModel {
   color: #0a5a8b;
+  max-width: 95%;
 }
 
 .quantity {
@@ -306,6 +315,65 @@ html {
   border: solid 1px black;
 }
 
+.totalMoney {
+  font-size: 1.3rem;
+  width: 90%;
+  font-weight: 400;
+  text-align: center;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  padding: 5px 10px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#cartTotal {
+  font-weight: 500;
+  color: orangered;
+}
+
+.cartMainBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-direction: column;
+  width: 100%;
+}
+
+.cartIconAndBubble {
+  position: relative;
+}
+
+.cartBubble {
+  position: absolute;
+  background: #dde7ee;
+  color: #256993;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  font-size: 0.7rem;
+  padding: 0px 5px;
+  top: -3px;
+  right: -10px;
+  width: 17px;
+  height: 17px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
 /* Slider - Hero */
 #hero {
   display: flex;

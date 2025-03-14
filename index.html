@@ -62,44 +62,24 @@
             </li>
           </ul>
           <div class="menuAndCartIcons">
-            <i class="fa-solid fa-cart-shopping" id="cartIcon"></i>
+            <div class="cartIconAndBubble">
+              <i class="fa-solid fa-cart-shopping" id="cartIcon"></i>
+              <p class="cartBubble"></p>
+            </div>
             <i class="fa-solid fa-bars" id="menuIcon"></i>
           </div>
         </div>
         <div class="cart">
           <h2 class="cartTitle">Carrito</h2>
-          <div class="cartProductsContainer">
-            <p class="emptyCartMsg hide">
-              Aun no tienes productos en el carrito 😅...
-            </p>
-            <div class="cartProCard boxShadow" data-product-id="1">
-              <button class="removeProductBtn">X</button>
-              <div class="cartProductImgContainer">
-                <img
-                  src="./assets/img/dell/netbook1/dell1.webp"
-                  alt="notebook dell"
-                />
-              </div>
-              <div class="cartProTextContainer">
-                <div class="nameAndModel">Lenovo Ideapad 3202</div>
-                <div class="proQuantity">
-                  <button class="quantityBtn qDown">-</button>
-                  <p class="qIndicator">
-                    Cantidad: <span class="quantity">999</span>
-                  </p>
-                  <button class="quantityBtn qUp">+</button>
-                </div>
-                <div class="priceContainer">
-                  <p>
-                    Precio: <span class="orangeSpan">$</span
-                    ><span class="cPrice">100.000.000</span>
-                  </p>
-                </div>
-              </div>
-            </div>
+          <p class="emptyCartMsg hide">
+            No tienes productos en el carrito 😅...
+          </p>
+          <div class="cartProductsContainer"></div>
+          <p class="totalMoney">Total:&nbsp<span id="cartTotal"></span></p>
+          <div class="cartMainBtns">
+            <button class="cartBtn emptyCartBtn">Vaciar Carrito</button>
+            <button class="cartBtn buyBtn">Comprar</button>
           </div>
-          <button class="cartBtn emptyCartBtn">Vaciar Carrito</button>
-          <button class="cartBtn buyBtn">Comprar</button>
         </div>
         <div class="blur hide"></div>
       </nav>

@@ -12,6 +12,10 @@ const blurDiv = document.querySelector(".blur");
 //Carrito
 const cartIcon = document.querySelector("#cartIcon");
 const cart = document.querySelector(".cart");
+const cartProductsContainer = document.querySelector(".cartProductsContainer");
+const cartMainBtns = document.querySelector(".cartMainBtns");
+const emptyCartMsg = document.querySelector(".emptyCartMsg");
+const totalPriceInd = document.querySelector(".totalMoney");
 //Filtrado
 const dynamicFiltersContainer = document.querySelector(".dynamicFilters");
 const resetContainer = document.querySelector(".resetContainer");
@@ -21,9 +25,9 @@ const productsContainer = document.querySelector(".productsContainer");
 const loadBtn = document.querySelector(".loadBtn");
 const showLessBtn = document.querySelector(".showLessBtn");
 const noNetbookFound = document.querySelector(".noNetbookFoundCard");
+const cartBubble = document.querySelector(".cartBubble");
 //Contactanos
 const submitBtn = document.querySelector(".submitBtn");
-const cartProductsContainer = document.querySelector(".cartProductsContainer");
 
 //appState para control de estados
 let appState = {
@@ -224,7 +228,7 @@ const handleMenuClick = () => {
   navList.classList.toggle("showMenu");
 };
 
-const handleCartClick = () => {
+const handleCartIconClick = () => {
   if (!navList.classList.contains("showMenu")) blurDiv.classList.toggle("show");
   navList.classList.remove("showMenu");
   cart.classList.toggle("showCart");
@@ -665,13 +669,13 @@ const normalizeName = (productName) => {
 
 //genera la plantilla html del producto en carrito
 const generateCartProTemp = (cartProduct) => {
-  let { id, quantity } = cartProduct;
+  let { id, quantity, indPrice } = cartProduct;
   let product = productData.find((item) => {
     return item.id === id;
   });
-  let { precio, nombre, imagenes } = product;
+  let { nombre, imagenes } = product;
   return `<div class="cartProCard boxShadow">
-              <button class="removeProductBtn">X</button>
+              <button class="removeProductBtn" data-product-id="${id}">X</button>
               <div class="cartProductImgContainer">
                 <img
                   src="${imagenes[0]}"
@@ -680,7 +684,7 @@ const generateCartProTemp = (cartProduct) => {
               </div>
               <div class="cartProTextContainer">
                 <div class="nameAndModel">${nombre}</div>
-                <div class="proQuantity">
+                <div class="proQuantity" data-product-id="${id}">
                   <button class="quantityBtn qDown">-</button>
                   <p class="qIndicator">
                     Cantidad: <span class="quantity">${quantity}</span>
@@ -691,7 +695,7 @@ const generateCartProTemp = (cartProduct) => {
                   <p>
                     Precio: <span class="orangeSpan">$</span
                     ><span class="cPrice">${(
-                      precio * quantity
+                      indPrice * quantity
                     ).toLocaleString()}</span>
                   </p>
                 </div>
@@ -699,27 +703,124 @@ const generateCartProTemp = (cartProduct) => {
             </div>`;
 };
 
+//renderiza el precio total del carrito
+const renderTotalPrice = () => {
+  let priceSpan = document.querySelector("#cartTotal");
+  let total = appState.cart.reduce((acum, curItem) => {
+    return acum + curItem.indPrice * curItem.quantity;
+  }, 0);
+  priceSpan.textContent = "$" + total.toLocaleString();
+};
+
+//quita los elementos del carrito que no deben estar disponibles si no hay productos cargados
+const showEmptyCartState = () => {
+  emptyCartMsg.classList.remove("hide");
+  for (let btn of cartMainBtns.children) btn.classList.add("hide");
+  totalPriceInd.classList.add("hide");
+};
+
+//vuelve a mostrar los elementos del carrito que deben estar disponibles al haber productos
+const showNonEmptyCartState = () => {
+  emptyCartMsg.classList.add("hide");
+  for (let btn of cartMainBtns.children) btn.classList.remove("hide");
+  totalPriceInd.classList.remove("hide");
+};
+
 //renderiza el carrito
 const renderCart = () => {
+  if (appState.cart.length === 0) {
+    cartProductsContainer.innerHTML = "";
+    showEmptyCartState();
+    return;
+  } else showNonEmptyCartState();
   cartProductsContainer.innerHTML = appState.cart
     .map(generateCartProTemp)
     .join("");
+  renderTotalPrice();
+};
+
+const updateCartBubble = () => {
+  cartBubble.textContent = String(
+    appState.cart.reduce((acum, actItem) => {
+      return acum + actItem.quantity;
+    }, 0)
+  );
+};
+
+const updateCartState = () => {
+  renderCart();
+  saveCart();
+  updateCartBubble();
 };
 
 //agrega al carrito un producto elegido desde la seccion de productos
 const addToCart = ({ target }) => {
   if (target.classList.contains("addToCartBtn")) {
     let id = Number(target.dataset.productId);
+    let indPrice = productData.find((elem) => {
+      return elem.id === id;
+    }).precio;
     if (!incrementProductQuantity(id)) {
       let newProduct = {
         id: id,
         quantity: 1,
+        indPrice: indPrice,
       };
       appState.cart.push(newProduct);
     }
-    renderCart();
-    saveCart();
+    updateCartState();
   }
+};
+
+//quita un producto del carrito usando su id
+const removeFromCart = (id) => {
+  appState.cart = appState.cart.filter((elem) => {
+    return elem.id !== Number(id);
+  });
+  updateCartState();
+};
+
+const decrementProductQuantity = (id) => {
+  let product = appState.cart.find((elem) => {
+    return elem.id === id;
+  });
+  product.quantity--;
+  if (product.quantity === 0) {
+    if (window.confirm("Seguro que quieres remover el producto del carrito?")) {
+      removeFromCart(id);
+      window.alert("Producto quitado!");
+      updateCartState();
+    } else {
+      product.quantity++;
+      return;
+    }
+  }
+  updateCartState();
+};
+
+const handleCartProductClick = ({ target }) => {
+  if (target.classList.contains("removeProductBtn"))
+    removeFromCart(target.dataset.productId);
+  else if (target.classList.contains("qUp")) {
+    incrementProductQuantity(Number(target.parentNode.dataset.productId));
+    updateCartState();
+  } else if (target.classList.contains("qDown"))
+    decrementProductQuantity(Number(target.parentNode.dataset.productId));
+};
+
+const resetCart = (confirmMsg, successMsg) => {
+  if (window.confirm(confirmMsg)) {
+    appState.cart = [];
+    updateCartState();
+    alert(successMsg);
+  }
+};
+
+const handleCartBtnClick = ({ target }) => {
+  if (target.classList.contains("emptyCartBtn"))
+    resetCart("Seguro que quiere vaciar el carrito?", "Carrito vaciado!");
+  else if (target.classList.contains("buyBtn"))
+    resetCart("Desea completar su compra?", "Compra realizada!");
 };
 
 //iniciaciones generales de la pagina
@@ -730,12 +831,13 @@ const init = () => {
   indicateMobile(mediaQuerySlider);
   //menus-carrito
   menuIcon.addEventListener("click", handleMenuClick);
-  cartIcon.addEventListener("click", handleCartClick);
+  cartIcon.addEventListener("click", handleCartIconClick);
   mediaQuerySlider.addEventListener("change", indicateMobile);
   blurDiv.addEventListener("click", closeMenus);
   //carga-carrito
   loadCart();
   renderCart();
+  updateCartBubble();
   //filtros
   createFilters();
   //productos
@@ -751,6 +853,8 @@ const init = () => {
   submitBtn.addEventListener("click", sendForm);
   //carrito-compra de productos
   productsContainer.addEventListener("click", addToCart);
-  cart.addEventListener("click", handleCartClick);
+  cartProductsContainer.addEventListener("click", handleCartProductClick);
+  cartMainBtns.addEventListener("click", handleCartBtnClick);
+  window.addEventListener("scroll", closeMenus);
 };
 init();
