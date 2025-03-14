@@ -26,6 +26,7 @@ const loadBtn = document.querySelector(".loadBtn");
 const showLessBtn = document.querySelector(".showLessBtn");
 const noNetbookFound = document.querySelector(".noNetbookFoundCard");
 const cartBubble = document.querySelector(".cartBubble");
+const modalMsg = document.querySelector(".modalMsg");
 //Contactanos
 const submitBtn = document.querySelector(".submitBtn");
 
@@ -64,6 +65,7 @@ let appState = {
     priceMinToMax: true,
   },
   cart: null,
+  currentModalTimer: null,
 };
 //Funcionalidad del SLIDER DEL HERO
 //marcado de puntos selectores para indicar los activados y desactivados
@@ -368,6 +370,16 @@ const createFilters = () => {
 
 //productos
 
+//muestra el mensaje recibido y lo quita luego de 2s
+const showModal = (message) => {
+  clearTimeout(appState.currentModalTimer);
+  modalMsg.textContent = message;
+  modalMsg.classList.remove("hideModal");
+  appState.currentModalTimer = setTimeout(() => {
+    modalMsg.classList.add("hideModal");
+  }, 2000);
+};
+
 //criterio de ordenamiento para precios (menor a mayor)
 const byPrice = (product1, product2) => {
   return product1.precio - product2.precio;
@@ -660,6 +672,28 @@ const incrementProductQuantity = (productId) => {
   return false;
 };
 
+//decrementa la cantidad de un producot en el carrito
+const decrementProductQuantity = (id) => {
+  let product = appState.cart.find((elem) => {
+    return elem.id === id;
+  });
+  product.quantity--;
+  if (product.quantity === 0) {
+    if (window.confirm("Seguro que quieres remover el producto del carrito?")) {
+      removeFromCart(id);
+      window.alert("Producto quitado!");
+      updateCartState();
+      return true;
+    } else {
+      product.quantity++;
+      return false;
+    }
+  }
+  showModal("Quitado una unidad del carrito!");
+  updateCartState();
+  return true;
+};
+
 //si el nombre del producto supera cierto largo remplaza los 3 ultimos caracteres por
 //puntos suspensivos (asi nos evitamos problemas con que se salga el contenido del div)
 const normalizeName = (productName) => {
@@ -767,7 +801,11 @@ const addToCart = ({ target }) => {
         indPrice: indPrice,
       };
       appState.cart.push(newProduct);
+      showModal("Agregado producto al carrito!");
+      updateCartState();
+      return;
     }
+    showModal("Agregado una unidad mas al carrito!");
     updateCartState();
   }
 };
@@ -780,30 +818,13 @@ const removeFromCart = (id) => {
   updateCartState();
 };
 
-const decrementProductQuantity = (id) => {
-  let product = appState.cart.find((elem) => {
-    return elem.id === id;
-  });
-  product.quantity--;
-  if (product.quantity === 0) {
-    if (window.confirm("Seguro que quieres remover el producto del carrito?")) {
-      removeFromCart(id);
-      window.alert("Producto quitado!");
-      updateCartState();
-    } else {
-      product.quantity++;
-      return;
-    }
-  }
-  updateCartState();
-};
-
 const handleCartProductClick = ({ target }) => {
   if (target.classList.contains("removeProductBtn"))
     removeFromCart(target.dataset.productId);
   else if (target.classList.contains("qUp")) {
     incrementProductQuantity(Number(target.parentNode.dataset.productId));
     updateCartState();
+    showModal("Agregado una unidad mas al carrito!");
   } else if (target.classList.contains("qDown"))
     decrementProductQuantity(Number(target.parentNode.dataset.productId));
 };
