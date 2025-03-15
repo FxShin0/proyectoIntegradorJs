@@ -511,10 +511,6 @@ html {
   cursor: pointer;
 }
 
-.unselectedDot {
-  opacity: 40%;
-}
-
 /* SOBRE NOSOTROS */
 
 #sobreNosotros {
@@ -781,9 +777,60 @@ html {
   font-weight: 500;
 }
 
-.productImg {
+.productSlider {
   width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
   height: 200px;
+  border-bottom: solid 2px #0a5a8b;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.productSliderBtn {
+  all: unset;
+  font-size: 40px;
+  color: black;
+}
+
+.nextProductImg,
+.prevProductImg {
+  cursor: pointer;
+  max-width: fit-content;
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-70%);
+  -webkit-transform: translateY(-70%);
+  -moz-transform: translateY(-70%);
+  -ms-transform: translateY(-70%);
+  -o-transform: translateY(-70%);
+}
+
+.prevProductImg {
+  left: 0px;
+}
+
+.productSliderDots {
+  display: flex;
+  gap: 13px;
+}
+
+.productSliderDot {
+  height: 8px;
+  width: 8px;
+}
+
+.productImg {
+  width: 85%;
+  height: 95%;
 }
 
 /* Filtros */
@@ -1028,4 +1075,7 @@ html {
 
 .maxWidth {
   max-width: 1600px;
+}
+.unselectedDot {
+  opacity: 40%;
 }

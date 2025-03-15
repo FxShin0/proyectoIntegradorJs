@@ -62,10 +62,9 @@ let appState = {
     totalProducts: productData.length,
     currentPageIndex: 0,
     pagedProductVec: [],
-    priceMinToMax: true,
   },
   cart: null,
-  currentModalTimer: null,
+  prodSliderInfoVec: [], //un vector con informacion relevante para el manejo de cada slider de producto
 };
 //Funcionalidad del SLIDER DEL HERO
 //marcado de puntos selectores para indicar los activados y desactivados
@@ -399,14 +398,30 @@ const setInitialProductVec = () => {
   splitProductVector(productData);
 };
 
+//genera la cantidad de puntos indicadores necesarios para cubrir las imagenes del producto
+//en el slider
+const createProductSliderDots = (amountOfDots) => {
+  let dots = `<div class="productSliderDot dot" data-index="0"></div>`;
+  for (let x = 1; x < amountOfDots; x++)
+    dots += `<div class="productSliderDot dot unselectedDot" data-index="${x}"></div>`;
+  return dots;
+};
+
 //creacion de la plantilla html dado un producto
 const createProductTemplate = (product) => {
   return `<div class="productCard boxShadow">
-                <img
-                  src="${product.imagenes[0]}"
-                  alt="notebook ${product.marca + product.modelo}"
-                  class="productImg"
-                />
+                <div class="productSlider" data-product-id="${product.id}">
+                  <img
+                    src="${product.imagenes[0]}"
+                    alt="notebook ${product.marca + product.modelo}"
+                    class="productImg"
+                  />
+                  <button class="productSliderBtn nextProductImg">&gt</button>
+                  <button class="productSliderBtn prevProductImg">&lt</button>
+                  <div class="productSliderDots">
+                    ${createProductSliderDots(product.imagenes.length)}
+                  </div>
+                </div>
                 <div class="cardText">
                   <p class="brand">${product.marca}</p>
                   <p class="model">${product.modelo}</p>
@@ -596,6 +611,8 @@ const resetFilters = ({ target }) => {
     filterAndSearch();
   }
 };
+
+//SLIDER DE PRODUCTOS
 
 //CONTACTANOS
 
@@ -788,26 +805,96 @@ const updateCartState = () => {
 };
 
 //agrega al carrito un producto elegido desde la seccion de productos
-const addToCart = ({ target }) => {
-  if (target.classList.contains("addToCartBtn")) {
-    let id = Number(target.dataset.productId);
-    let indPrice = productData.find((elem) => {
-      return elem.id === id;
-    }).precio;
-    if (!incrementProductQuantity(id)) {
-      let newProduct = {
-        id: id,
-        quantity: 1,
-        indPrice: indPrice,
-      };
-      appState.cart.push(newProduct);
-      showModal("Agregado producto al carrito!");
-      updateCartState();
-      return;
-    }
-    showModal("Agregado una unidad mas al carrito!");
+const addToCart = (target) => {
+  let id = Number(target.dataset.productId);
+  let indPrice = productData.find((elem) => {
+    return elem.id === id;
+  }).precio;
+  if (!incrementProductQuantity(id)) {
+    let newProduct = {
+      id: id,
+      quantity: 1,
+      indPrice: indPrice,
+    };
+    appState.cart.push(newProduct);
+    showModal("Agregado producto al carrito!");
     updateCartState();
+    return;
   }
+  showModal("Agregado una unidad mas al carrito!");
+  updateCartState();
+};
+
+//inicializa un vector que se usara para controlar cada slider individual de los productos
+//consta del id del producto, su vector de imagenes y el indice actual del mismo.
+const initiateProdSliders = () => {
+  appState.prodSliderInfoVec = productData.map((product) => {
+    return { id: product.id, currentIndex: 0, productImgs: product.imagenes };
+  });
+};
+
+//marca el punto seleccionado y desmarca los no seleccionados
+const markProdSliderDots = (markIndex, dotsContainer) => {
+  for (let dot of dotsContainer.children) {
+    if (Number(dot.dataset.index) === markIndex)
+      dot.classList.remove("unselectedDot");
+    else dot.classList.add("unselectedDot");
+  }
+};
+
+//cambia la imagen del slider del producto al cual se haya click
+const productSliderHandle = (target) => {
+  let productId = Number(target.parentNode.dataset.productId);
+  let imgNode = target.parentNode.querySelector(".productImg");
+  let dotsContainer = target.parentNode.querySelector(".productSliderDots");
+  let productSliderInfo = appState.prodSliderInfoVec.find((prod) => {
+    return prod.id === productId;
+  });
+  let { currentIndex, productImgs } = productSliderInfo;
+  if (target.classList.contains("nextProductImg")) {
+    //incrementamos el puntero y asignamos la imagen
+    productSliderInfo.currentIndex =
+      (currentIndex + 1 + productImgs.length) % productImgs.length;
+    imgNode.src = productImgs[productSliderInfo.currentIndex];
+  } else {
+    //decrementamos el puntero y asignamos la imagen
+    productSliderInfo.currentIndex =
+      (currentIndex - 1 + productImgs.length) % productImgs.length;
+    imgNode.src = productImgs[productSliderInfo.currentIndex];
+  }
+  markProdSliderDots(productSliderInfo.currentIndex, dotsContainer);
+};
+
+//realiza el cambio de la imagen del slider usando los puntos como input
+const dotChangesProdSlider = (dot) => {
+  console.log(dot);
+  let dotsContainer = dot.parentNode;
+  let sliderContainer = dotsContainer.parentNode;
+  let productId = Number(sliderContainer.dataset.productId);
+  let dotIndex = Number(dot.dataset.index);
+  let imgNode = sliderContainer.querySelector(".productImg");
+  let sliderInfo = appState.prodSliderInfoVec.find((prod) => {
+    return prod.id === productId;
+  });
+
+  sliderInfo.currentIndex = dotIndex;
+  console.log(sliderInfo);
+  console.log(dotIndex);
+  imgNode.src = sliderInfo.productImgs[dotIndex];
+  markProdSliderDots(dotIndex, dotsContainer);
+};
+
+//maneja el click a product cards sea para agregar un producto al carrito
+//o manejar el slider de la card especifica de producto
+const handleProductClick = ({ target }) => {
+  if (target.classList.contains("addToCartBtn")) addToCart(target);
+  else if (
+    target.classList.contains("nextProductImg") ||
+    target.classList.contains("prevProductImg")
+  )
+    productSliderHandle(target);
+  else if (target.classList.contains("productSliderDot"))
+    dotChangesProdSlider(target);
 };
 
 //quita un producto del carrito usando su id
@@ -818,6 +905,7 @@ const removeFromCart = (id) => {
   updateCartState();
 };
 
+//maneja el click de un producto en el carrito, sea para quitarlo o aumentar/disminuir su cantidad
 const handleCartProductClick = ({ target }) => {
   if (target.classList.contains("removeProductBtn"))
     removeFromCart(target.dataset.productId);
@@ -829,6 +917,7 @@ const handleCartProductClick = ({ target }) => {
     decrementProductQuantity(Number(target.parentNode.dataset.productId));
 };
 
+//resetea el carro (normalmente luego de comprar o vaciar el mismo)
 const resetCart = (confirmMsg, successMsg) => {
   if (window.confirm(confirmMsg)) {
     appState.cart = [];
@@ -837,6 +926,7 @@ const resetCart = (confirmMsg, successMsg) => {
   }
 };
 
+//resetea el carrito en ambos casos pero da los mensajes correspondientes en caso de vaciar o comprar
 const handleCartBtnClick = ({ target }) => {
   if (target.classList.contains("emptyCartBtn"))
     resetCart("Seguro que quiere vaciar el carrito?", "Carrito vaciado!");
@@ -862,6 +952,7 @@ const init = () => {
   //filtros
   createFilters();
   //productos
+  initiateProdSliders();
   setInitialProductVec();
   renderProducts();
   loadBtn.addEventListener("click", loadNewPage);
@@ -873,7 +964,7 @@ const init = () => {
   //contactanos formulario
   submitBtn.addEventListener("click", sendForm);
   //carrito-compra de productos
-  productsContainer.addEventListener("click", addToCart);
+  productsContainer.addEventListener("click", handleProductClick);
   cartProductsContainer.addEventListener("click", handleCartProductClick);
   cartMainBtns.addEventListener("click", handleCartBtnClick);
   window.addEventListener("scroll", closeMenus);
