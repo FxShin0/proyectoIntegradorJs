@@ -16,7 +16,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <!-- Cargar las imagenes del slider previamente -->
+    <!-- Cargar la primer imagen del slider previamente -->
     <link
       rel="preload"
       as="image"
@@ -30,11 +30,11 @@
       media="(max-width:550px)"
     />
   </head>
-  <body id="body">
+  <body id="body" class="flexCenter">
     <header class="header boxShadow">
       <nav class="navbar">
         <a href="#hero">
-          <div class="logoAndTitle">
+          <div class="logoAndTitle flexCenter">
             <img
               src="./assets/img/logo/notebookHeavenLogo.png"
               alt="Notebook Heaven Logo"
@@ -46,7 +46,7 @@
             </h1>
           </div>
         </a>
-        <div class="iconsAndList">
+        <div class="iconsAndList flexCenter">
           <ul class="navbarList">
             <li class="navbarListItem">
               <a href="#hero" class="navbarListLink">Inicio</a>
@@ -61,24 +61,28 @@
               <a href="#contactanos" class="navbarListLink">Contáctanos</a>
             </li>
           </ul>
-          <div class="menuAndCartIcons">
+          <div class="menuAndCartIcons flexCenter">
             <div class="cartIconAndBubble">
               <i class="fa-solid fa-cart-shopping" id="cartIcon"></i>
-              <p class="cartBubble"></p>
+              <p class="cartBubble borderRadiusCircle flexCenter"></p>
             </div>
             <i class="fa-solid fa-bars" id="menuIcon"></i>
           </div>
         </div>
-        <div class="cart">
+        <div class="cart transition2s">
           <h2 class="cartTitle">Carrito</h2>
           <p class="emptyCartMsg hide">
             No tienes productos en el carrito 😅...
           </p>
-          <div class="cartProductsContainer"></div>
-          <p class="totalMoney">Total:&nbsp<span id="cartTotal"></span></p>
-          <div class="cartMainBtns">
-            <button class="cartBtn emptyCartBtn">Vaciar Carrito</button>
-            <button class="cartBtn buyBtn">Comprar</button>
+          <div class="cartProductsContainer flexCenter"></div>
+          <p class="totalMoney flexCenter borderRadius10">
+            Total:&nbsp<span id="cartTotal"></span>
+          </p>
+          <div class="cartMainBtns flexCenter">
+            <button class="cartBtn emptyCartBtn borderRadius10">
+              Vaciar Carrito
+            </button>
+            <button class="cartBtn buyBtn borderRadius10">Comprar</button>
           </div>
         </div>
         <div class="blur hide"></div>
@@ -86,8 +90,8 @@
     </header>
     <main id="main">
       <!-- HERO -->
-      <section id="hero" class="maxWidth">
-        <div class="titleAndDesc">
+      <section id="hero" class="maxWidth flexCenter">
+        <div class="titleAndDesc flexCenter">
           <h1 class="sectionTitle">Notebook Heaven</h1>
           <p class="sectionDesc">
             Potencia tu creatividad y productividad con nuestras notebooks al
@@ -102,11 +106,11 @@
           />
           <button class="sliderBtn prevHero">&lt</button>
           <button class="sliderBtn nextHero">&gt</button>
-          <div class="dotsDisplay"></div>
+          <div class="dotsDisplay flexCenter"></div>
         </div>
       </section>
       <!-- SOBRE NOSOTROS -->
-      <section id="sobreNosotros" class="maxWidth">
+      <section id="sobreNosotros" class="maxWidth flexCenter">
         <div class="sobreNosotrosText">
           <h2 class="sectionTitle">Sobre Nosotros</h2>
           <p class="sectionDesc">
@@ -117,34 +121,34 @@
           </p>
           <h3 class="sectionSubtitle">¿Por qué elegirnos?</h3>
         </div>
-        <div class="cardsContainer">
-          <div class="card boxShadow">
+        <div class="cardsContainer flexCenter">
+          <div class="card borderRadius15 boxShadow">
             <i class="fa-solid fa-laptop cardIcon"></i>
             <p class="cardDesc">
               Amplia selección de notebooks de marcas reconocidas
             </p>
           </div>
-          <div class="card boxShadow">
+          <div class="card borderRadius15 boxShadow">
             <i class="fa-solid fa-handshake-angle cardIcon"></i>
             <p class="cardDesc">
               Asesoria personalizada para encontrar el equipo ideal
             </p>
           </div>
-          <div class="card boxShadow">
+          <div class="card borderRadius15 boxShadow">
             <i class="fa-solid fa-dollar-sign cardIcon"></i>
             <p class="cardDesc">Precios competitivos con ofertas exclusivas</p>
           </div>
-          <div class="card boxShadow">
+          <div class="card borderRadius15 boxShadow">
             <i class="fa-solid fa-check-to-slot cardIcon"></i>
             <p class="cardDesc">Garantia de calidad asegurada</p>
           </div>
         </div>
       </section>
       <!-- PRODUCTOS -->
-      <section id="productos" class="maxWidth">
+      <section id="productos" class="maxWidth flexCenter">
         <h2 class="sectionTitle">Busca tu Notebook!</h2>
         <div class="filtersAndProductsContainer">
-          <div class="filtersAndButtonsContainer boxShadow">
+          <div class="filtersAndButtonsContainer borderRadius10 boxShadow">
             <div class="filtersContainer">
               <div class="filter">
                 <p class="downIndicator">+</p>
@@ -153,14 +157,14 @@
                 <p class="filterName filterNameMobile">Estado</p>
                 <div class="filterOptions">
                   <button
-                    class="btn filterBtn"
+                    class="btn filterBtn borderRadius5 transition2s"
                     data-filter-value="nuevo"
                     data-filter-type="estado"
                   >
                     Nuevo
                   </button>
                   <button
-                    class="btn filterBtn"
+                    class="btn filterBtn borderRadius5 transition2s"
                     data-filter-value="reacondicionado"
                     data-filter-type="estado"
                   >
@@ -170,19 +174,25 @@
               </div>
               <div class="dynamicFilters"></div>
             </div>
-            <div class="resetContainer">
-              <button class="resetFiltersBtn btn">Quitar Filtros</button>
+            <div class="resetContainer flexCenter">
+              <button class="resetFiltersBtn btn borderRadius5 transition2s">
+                Quitar Filtros
+              </button>
             </div>
           </div>
-          <div class="productsAndPagesContainer boxShadow">
+          <div
+            class="productsAndPagesContainer flexCenter borderRadius10 boxShadow"
+          >
             <div class="productsContainer"></div>
-            <div class="noNetbookFoundCard boxShadow hide">
+            <div
+              class="noNetbookFoundCard flexCenter borderRadius15 boxShadow hide"
+            >
               <img
                 src="./assets/img/auxLogo/sadCloud.png"
                 alt="Imagen de error"
                 class="noNetbookImg"
               />
-              <div class="noNetbookText">
+              <div class="noNetbookText flexCenter">
                 <h3 class="NNcardTitle">No tenemos una asi 😣...</h3>
                 <p class="NNcardText">
                   Sin embargo, puede ver nuestro catalogo completo y buscar una
@@ -192,13 +202,15 @@
               <button class="btn fullCatalog">Ver catalogo completo</button>
             </div>
             <div class="pagesContainer">
-              <button class="loadBtn btn">Mostrar mas</button>
-              <button class="showLessBtn hide">Mostrar menos</button>
+              <button class="loadBtn borderRadius10 btn">Mostrar mas</button>
+              <button class="showLessBtn borderRadius10 hide">
+                Mostrar menos
+              </button>
             </div>
           </div>
         </div>
       </section>
-      <section id="contactanos" class="maxWidth">
+      <section id="contactanos" class="maxWidth flexCenter">
         <div class="contactanosTextContainer">
           <h2 class="sectionTitle">¿Tienes dudas? Contactanos!</h2>
           <p class="sectionDesc">
@@ -207,15 +219,15 @@
           </p>
         </div>
         <div class="contactanosCardContainer">
-          <div class="contactUsCard boxShadow">
+          <div class="contactUsCard flexCenter borderRadius15 boxShadow">
             <h3 class="contactCardTitle">Online</h3>
-            <form class="cardForm">
+            <form class="cardForm flexCenter">
               <div class="labelInputContainer">
                 <label class="label" for="name">Nombre:</label>
                 <input
                   type="text"
                   id="name"
-                  class="input"
+                  class="input borderRadius10"
                   data-type="Nombre"
                   placeholder="Ingresa tu nombre..."
                 />
@@ -225,7 +237,7 @@
                 <input
                   type="email"
                   id="email"
-                  class="input"
+                  class="input borderRadius10"
                   data-type="Correo"
                   placeholder="Ingresa tu correo..."
                 />
@@ -233,16 +245,20 @@
               <div class="labelInputContainer">
                 <label class="label" for="mensaje">Mensaje:</label>
                 <textarea
-                  class="input textArea"
+                  class="input borderRadius10 textArea"
                   data-type="Mensaje"
                   id="mensaje"
                   placeholder="Deja tu mensaje aqui..."
                 ></textarea>
               </div>
-              <input type="submit" value="Enviar" class="submitBtn" />
+              <input
+                type="submit"
+                value="Enviar"
+                class="submitBtn borderRadius10"
+              />
             </form>
           </div>
-          <div class="contactUsCard boxShadow">
+          <div class="contactUsCard flexCenter borderRadius15 boxShadow">
             <h3 class="contactCardTitle">Presencial</h3>
             <p class="direction">
               Larrazabal 5563, B1753GLK Villa Luzuriaga, Buenos Aires
@@ -265,13 +281,13 @@
         <a href="#"><li>Trabaja con nosotros</li></a>
         <a href="#"><li>Soporte</li></a>
       </ul>
-      <div class="socialMediaContainer">
+      <div class="socialMediaContainer flexCenter">
         <a href="#"><i class="fa-brands fa-facebook"></i></a>
         <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
         <a href="#"><i class="fa-brands fa-instagram"></i></a>
       </div>
     </footer>
-    <div class="modalMsg hideModal"></div>
+    <div class="modalMsg hideModal transition3s"></div>
     <script src="./assets/data/data.js"></script>
     <script src="./assets/main.js"></script>
   </body>

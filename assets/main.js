@@ -87,6 +87,7 @@ const spawnDots = () => {
     let dot = document.createElement("div");
     dot.dataset.imgIndex = x;
     dot.classList.add("dot");
+    dot.classList.add("borderRadiusCircle");
     dotsDisplay.appendChild(dot);
   }
   markDots(sliderState.currentImgIndex);
@@ -289,7 +290,7 @@ const loadStorageValues = (array, storages) => {
 };
 
 const createFilterBtnTemplate = (filterValue, filterType) => {
-  return `<button class="filterBtn btn" data-filter-value="${filterValue.toLowerCase()}" data-filter-type="${filterType}">${filterValue}</button>`;
+  return `<button class="filterBtn btn borderRadius5 transition2s" data-filter-value="${filterValue.toLowerCase()}" data-filter-type="${filterType}">${filterValue}</button>`;
 };
 
 //criterio de ordenamiento en caso de que querramos ordenar almacenamientos
@@ -401,16 +402,18 @@ const setInitialProductVec = () => {
 //genera la cantidad de puntos indicadores necesarios para cubrir las imagenes del producto
 //en el slider
 const createProductSliderDots = (amountOfDots) => {
-  let dots = `<div class="productSliderDot dot" data-index="0"></div>`;
+  let dots = `<div class="productSliderDot dot borderRadiusCircle" data-index="0"></div>`;
   for (let x = 1; x < amountOfDots; x++)
-    dots += `<div class="productSliderDot dot unselectedDot" data-index="${x}"></div>`;
+    dots += `<div class="productSliderDot dot borderRadiusCircle unselectedDot" data-index="${x}"></div>`;
   return dots;
 };
 
 //creacion de la plantilla html dado un producto
 const createProductTemplate = (product) => {
-  return `<div class="productCard boxShadow">
-                <div class="productSlider" data-product-id="${product.id}">
+  return `<div class="productCard flexCenter borderRadius10 boxShadow">
+                <div class="productSlider borderRadius10" data-product-id="${
+                  product.id
+                }">
                   <img
                     src="${product.imagenes[0]}"
                     alt="notebook ${product.marca + product.modelo}"
@@ -422,7 +425,7 @@ const createProductTemplate = (product) => {
                     ${createProductSliderDots(product.imagenes.length)}
                   </div>
                 </div>
-                <div class="cardText">
+                <div class="cardText flexCenter">
                   <p class="brand">${product.marca}</p>
                   <p class="model">${product.modelo}</p>
                   <p class="cpu">${product.procesador}</p>
@@ -437,7 +440,7 @@ const createProductTemplate = (product) => {
                     "$" + product.precio.toLocaleString("es-AR")
                   }</p>
                 </div>
-                <button class="addToCartBtn" data-product-id="${
+                <button class="addToCartBtn borderRadius15" data-product-id="${
                   product.id
                 }">Agregar al Carrito</button>
               </div>`;
@@ -725,22 +728,22 @@ const generateCartProTemp = (cartProduct) => {
     return item.id === id;
   });
   let { nombre, imagenes } = product;
-  return `<div class="cartProCard boxShadow">
+  return `<div class="cartProCard boxShadow borderRadius5">
               <button class="removeProductBtn" data-product-id="${id}">X</button>
-              <div class="cartProductImgContainer">
+              <div class="cartProductImgContainer flexCenter">
                 <img
                   src="${imagenes[0]}"
                   alt="notebook ${normalizeName(nombre)}"
                 />
               </div>
-              <div class="cartProTextContainer">
+              <div class="cartProTextContainer flexCenter">
                 <div class="nameAndModel">${nombre}</div>
-                <div class="proQuantity" data-product-id="${id}">
-                  <button class="quantityBtn qDown">-</button>
+                <div class="proQuantity flexCenter" data-product-id="${id}">
+                  <button class="quantityBtn qDown borderRadius15">-</button>
                   <p class="qIndicator">
                     Cantidad: <span class="quantity">${quantity}</span>
                   </p>
-                  <button class="quantityBtn qUp">+</button>
+                  <button class="quantityBtn qUp borderRadius15">+</button>
                 </div>
                 <div class="priceContainer">
                   <p>
