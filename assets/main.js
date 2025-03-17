@@ -43,7 +43,11 @@ let appState = {
       currentTimer: null,
     },
     mobile: {
-      imgs: ["./assets/img/slider/mobile/first.webp"],
+      imgs: [
+        "./assets/img/slider/mobile/first.webp",
+        "./assets/img/slider/mobile/second.webp",
+        "./assets/img/slider/mobile/third.webp",
+      ],
       currentImgIndex: 0,
       currentTimer: null,
     },

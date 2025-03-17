@@ -67,6 +67,7 @@ let productData = [
       "./assets/img/exo/netbook3/exo1.webp",
       "./assets/img/exo/netbook3/exo2.webp",
       "./assets/img/exo/netbook3/exo3.webp",
+      "./assets/img/exo/netbook3/exo4.webp",
     ],
     precio: 320269,
     estado: "Nuevo",
