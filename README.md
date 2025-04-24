@@ -9,6 +9,7 @@ Este proyecto fue desarrollado como parte de mi **Proyecto Integrador del módul
 - **Carrito de compras funcional**: Los usuarios pueden agregar productos al carrito, ver los productos seleccionados y eliminar artículos.
 - **Responsividad**: El diseño se adapta a diferentes tamaños de pantalla (móvil, tablet, escritorio).
 - **Interactividad en JavaScript**: Todo el comportamiento dinámico (como el carrito y el filtrado) está implementado en JavaScript puro (sin bibliotecas externas).
+- **Uso de LocalStorage**: El carrito de compras se guarda incluso si salis de la pagina.
 
 ### Demo
 
